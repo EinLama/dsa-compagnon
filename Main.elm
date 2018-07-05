@@ -3,6 +3,7 @@ module Main exposing (..)
 import Html exposing (Html, input, button, div, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
+import Random
 
 
 main : Program Never Model Msg
@@ -25,41 +26,69 @@ subscriptions model =
     Sub.none
 
 
+type Trait
+    = Kl
+    | Ko
+    | Ff
+    | Kk
+    | Mu
+    | Ge
+    | In
+    | Ch
+
+
+type alias CharacterTrait =
+    { trait : Trait
+    , value : Int
+    , rolls : List Int
+    }
+
+
+updateTraitValue : Int -> CharacterTrait -> CharacterTrait
+updateTraitValue value trait =
+    { trait | value = value }
+
+
+getTraitValue : CharacterTrait -> Int
+getTraitValue { value } =
+    value
+
+
+addTraitRoll : Int -> CharacterTrait -> CharacterTrait
+addTraitRoll value ({ rolls } as trait) =
+    { trait | rolls = value :: rolls }
+
+
 type alias Model =
-    { kl : Int
-    , ko : Int
-    , ff : Int
-    , kk : Int
-    , mu : Int
-    , ge : Int
-    , in_ : Int
-    , ch : Int
+    { kl : CharacterTrait
+    , ko : CharacterTrait
+    , ff : CharacterTrait
+    , kk : CharacterTrait
+    , mu : CharacterTrait
+    , ge : CharacterTrait
+    , in_ : CharacterTrait
+    , ch : CharacterTrait
     }
 
 
 model : Model
 model =
-    { mu = 13
-    , kl = 14
-    , in_ = 14
-    , ch = 15
-    , ff = 13
-    , ge = 12
-    , ko = 11
-    , kk = 9
+    { mu = CharacterTrait Mu 13 []
+    , kl = CharacterTrait Kl 14 []
+    , in_ = CharacterTrait In 14 []
+    , ch = CharacterTrait Ch 15 []
+    , ff = CharacterTrait Ff 13 []
+    , ge = CharacterTrait Ge 12 []
+    , ko = CharacterTrait Ko 11 []
+    , kk = CharacterTrait Kk 9 []
     }
 
 
 type Msg
     = NoOp
-    | ChangeKl String
-    | ChangeKo String
-    | ChangeIn String
-    | ChangeMu String
-    | ChangeFf String
-    | ChangeGe String
-    | ChangeCh String
-    | ChangeKk String
+    | Roll Trait
+    | Rolled Trait Int
+    | Change Trait String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -68,29 +97,60 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
-        ChangeKl val ->
-            ( { model | kl = parseIntWithDefault val }, Cmd.none )
+        Roll trait ->
+            ( model, Random.generate (Rolled trait) (Random.int 1 20) )
 
-        ChangeIn val ->
-            ( { model | in_ = parseIntWithDefault val }, Cmd.none )
+        Rolled trait result ->
+            case trait of
+                Kl ->
+                    ( { model | kl = addTraitRoll result model.kl }, Cmd.none )
 
-        ChangeKo val ->
-            ( { model | ko = parseIntWithDefault val }, Cmd.none )
+                Mu ->
+                    ( { model | mu = addTraitRoll result model.mu }, Cmd.none )
 
-        ChangeMu val ->
-            ( { model | mu = parseIntWithDefault val }, Cmd.none )
+                In ->
+                    ( { model | in_ = addTraitRoll result model.in_ }, Cmd.none )
 
-        ChangeFf val ->
-            ( { model | ff = parseIntWithDefault val }, Cmd.none )
+                Ch ->
+                    ( { model | ch = addTraitRoll result model.ch }, Cmd.none )
 
-        ChangeGe val ->
-            ( { model | ge = parseIntWithDefault val }, Cmd.none )
+                Ff ->
+                    ( { model | ff = addTraitRoll result model.ff }, Cmd.none )
 
-        ChangeCh val ->
-            ( { model | ch = parseIntWithDefault val }, Cmd.none )
+                Ge ->
+                    ( { model | ge = addTraitRoll result model.ge }, Cmd.none )
 
-        ChangeKk val ->
-            ( { model | kk = parseIntWithDefault val }, Cmd.none )
+                Ko ->
+                    ( { model | ko = addTraitRoll result model.ko }, Cmd.none )
+
+                Kk ->
+                    ( { model | kk = addTraitRoll result model.kk }, Cmd.none )
+
+        Change trait value ->
+            case trait of
+                Kl ->
+                    ( { model | kl = updateTraitValue (parseIntWithDefault value) model.kl }, Cmd.none )
+
+                Mu ->
+                    ( { model | mu = updateTraitValue (parseIntWithDefault value) model.mu }, Cmd.none )
+
+                In ->
+                    ( { model | in_ = updateTraitValue (parseIntWithDefault value) model.in_ }, Cmd.none )
+
+                Ch ->
+                    ( { model | ch = updateTraitValue (parseIntWithDefault value) model.ch }, Cmd.none )
+
+                Ff ->
+                    ( { model | ff = updateTraitValue (parseIntWithDefault value) model.ff }, Cmd.none )
+
+                Ge ->
+                    ( { model | ge = updateTraitValue (parseIntWithDefault value) model.ge }, Cmd.none )
+
+                Ko ->
+                    ( { model | ko = updateTraitValue (parseIntWithDefault value) model.ko }, Cmd.none )
+
+                Kk ->
+                    ( { model | kk = updateTraitValue (parseIntWithDefault value) model.kk }, Cmd.none )
 
 
 parseIntWithDefault : String -> Int
@@ -109,21 +169,19 @@ view model =
 renderAttributes : Model -> Html Msg
 renderAttributes model =
     div []
-        [ renderFieldForTrait "MU" model.mu ChangeMu NoOp
-        , renderFieldForTrait "KL" model.kl ChangeKl NoOp
-        , renderFieldForTrait "IN" model.in_ ChangeIn NoOp
-        , renderFieldForTrait "CH" model.ch ChangeCh NoOp
-        , renderFieldForTrait "FF" model.ff ChangeFf NoOp
-        , renderFieldForTrait "GE" model.ge ChangeGe NoOp
-        , renderFieldForTrait "KO" model.ko ChangeKo NoOp
-        , renderFieldForTrait "KK" model.kk ChangeKk NoOp
+        [ renderFieldForTrait model "MU" (.mu >> getTraitValue) (Change Mu) (Roll Mu)
+        , renderFieldForTrait model "KL" (getTraitValue << .kl) (Change Kl) (Roll Kl)
+        , renderFieldForTrait model "IN" (.in_ >> getTraitValue) (Change In) NoOp
+        , renderFieldForTrait model "CH" (.ch >> getTraitValue) (Change Ch) NoOp
+        , renderFieldForTrait model "FF" (.ff >> getTraitValue) (Change Ff) NoOp
+        , renderFieldForTrait model "GE" (.ge >> getTraitValue) (Change Ge) NoOp
+        , renderFieldForTrait model "KO" (.ko >> getTraitValue) (Change Ko) NoOp
+        , renderFieldForTrait model "KK" (.kk >> getTraitValue) (Change Kk) NoOp
         ]
 
-
-renderFieldForTrait : String -> Int -> (String -> msg) -> msg -> Html msg
-renderFieldForTrait traitLabel trait changeEvent rollEvent =
+renderFieldForTrait model traitLabel traitAccessor changeEvent rollEvent =
     div []
         [ text traitLabel
-        , input [ placeholder traitLabel, type_ "number", onInput changeEvent, value (toString trait) ] []
+        , input [ placeholder traitLabel, type_ "number", onInput changeEvent, value (toString (traitAccessor model)) ] []
         , button [ onClick rollEvent ] [ text ("Roll " ++ traitLabel) ]
         ]
