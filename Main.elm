@@ -193,23 +193,29 @@ view : Model -> Html Msg
 view model =
     div [ class "section" ]
         [ div [ class "container" ] [ renderAttributes model ]
-        , input [ value (model |> analyseRolls |> toString) ] []
-        , button [ class "button is-text", onClick ResetRolls ] [ text "Reset" ]
+        , div [ class "field" ]
+            [ input [ value (model |> analyseRolls |> toString) ] []
+            , button [ class "button is-text", onClick ResetRolls ] [ text "Reset" ]
+            ]
         , div [] [ text (toString model) ]
         ]
 
 
 renderAttributes : Model -> Html Msg
 renderAttributes model =
-    div [ class "traits" ]
-        [ renderFieldForTrait model Mu (model |> getTraitValue Mu) Change Roll
-        , renderFieldForTrait model Kl (model |> getTraitValue Kl) Change Roll
-        , renderFieldForTrait model In (model |> getTraitValue In) Change Roll
-        , renderFieldForTrait model Ch (model |> getTraitValue Ch) Change Roll
-        , renderFieldForTrait model Ff (model |> getTraitValue Ff) Change Roll
-        , renderFieldForTrait model Ge (model |> getTraitValue Ge) Change Roll
-        , renderFieldForTrait model Ko (model |> getTraitValue Ko) Change Roll
-        , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change Roll
+    div [ class "columns traits" ]
+        [ div [ class "column" ]
+            [ renderFieldForTrait model Mu (model |> getTraitValue Mu) Change Roll
+            , renderFieldForTrait model Kl (model |> getTraitValue Kl) Change Roll
+            , renderFieldForTrait model In (model |> getTraitValue In) Change Roll
+            , renderFieldForTrait model Ch (model |> getTraitValue Ch) Change Roll
+            ]
+        , div [ class "column" ]
+            [ renderFieldForTrait model Ff (model |> getTraitValue Ff) Change Roll
+            , renderFieldForTrait model Ge (model |> getTraitValue Ge) Change Roll
+            , renderFieldForTrait model Ko (model |> getTraitValue Ko) Change Roll
+            , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change Roll
+            ]
         ]
 
 
