@@ -205,6 +205,7 @@ view model =
             , div [ class "section" ]
                 [ div [ class "container" ]
                     [ renderAttributes model
+                    , renderRollButtons model
                     , renderResultAndReset rollsSum
                     ]
                 , renderRolls model
@@ -246,22 +247,50 @@ renderAttributes : Model -> Html Msg
 renderAttributes model =
     div [ class "columns traits" ]
         [ div [ class "column" ]
-            [ renderFieldForTrait model Mu (model |> getTraitValue Mu) Change Roll
-            , renderFieldForTrait model Kl (model |> getTraitValue Kl) Change Roll
-            , renderFieldForTrait model In (model |> getTraitValue In) Change Roll
-            , renderFieldForTrait model Ch (model |> getTraitValue Ch) Change Roll
+            [ renderFieldForTrait model Mu (model |> getTraitValue Mu) Change
+            , renderFieldForTrait model Kl (model |> getTraitValue Kl) Change
+            , renderFieldForTrait model In (model |> getTraitValue In) Change
+            , renderFieldForTrait model Ch (model |> getTraitValue Ch) Change
             ]
         , div [ class "column" ]
-            [ renderFieldForTrait model Ff (model |> getTraitValue Ff) Change Roll
-            , renderFieldForTrait model Ge (model |> getTraitValue Ge) Change Roll
-            , renderFieldForTrait model Ko (model |> getTraitValue Ko) Change Roll
-            , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change Roll
+            [ renderFieldForTrait model Ff (model |> getTraitValue Ff) Change
+            , renderFieldForTrait model Ge (model |> getTraitValue Ge) Change
+            , renderFieldForTrait model Ko (model |> getTraitValue Ko) Change
+            , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change
             ]
         ]
 
 
-renderFieldForTrait : Model -> Trait -> Int -> (Trait -> String -> msg) -> (Trait -> msg) -> Html msg
-renderFieldForTrait model trait traitValue changeEvent rollEvent =
+renderRollButton : Trait -> (Trait -> Msg) -> Html Msg
+renderRollButton trait rollEvent =
+    let
+        labelForTrait =
+            traitLabel trait
+    in
+        div
+            [ class "control roll-button" ]
+            [ button [ class "button is-medium is-info", onClick <| rollEvent trait ] [ text ("Roll " ++ labelForTrait) ]
+            ]
+
+
+renderRollButtons : Model -> Html Msg
+renderRollButtons model =
+    div [ class "columns roll-buttons" ]
+        [ div [ class "column is-1 is-offset-5" ]
+            (model.traits
+                |> List.take 4
+                |> List.map (\t -> renderRollButton t.trait Roll)
+            )
+        , div [ class "column is-1" ]
+            (model.traits
+                |> List.drop 4
+                |> List.map (\t -> renderRollButton t.trait Roll)
+            )
+        ]
+
+
+renderFieldForTrait : Model -> Trait -> Int -> (Trait -> String -> msg) -> Html msg
+renderFieldForTrait model trait traitValue changeEvent =
     let
         labelForTrait =
             traitLabel trait
@@ -273,13 +302,9 @@ renderFieldForTrait model trait traitValue changeEvent rollEvent =
                     ]
                 , div
                     [ class "field-body" ]
-                    [ div [ class "field is-grouped" ]
+                    [ div [ class "field" ]
                         [ div [ class "control" ]
                             [ input [ class "input is-medium", placeholder labelForTrait, type_ "number", onInput (changeEvent trait), value (toString traitValue) ] []
-                            ]
-                        , div
-                            [ class "control is-expanded" ]
-                            [ button [ class "button is-medium is-info", onClick <| rollEvent trait ] [ text ("Roll " ++ labelForTrait) ]
                             ]
                         ]
                     ]

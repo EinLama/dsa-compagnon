@@ -2,8 +2,10 @@
   margin-bottom: 10px;
 }
 
-.rolls {
+.roll-buttons .roll-button {
+  margin-bottom: 10px;
 }
+
 .rolls-roll {
   display: inline;
   padding-right: 15px;

@@ -9210,8 +9210,41 @@ var _user$project$Main$renderRolls = function (model) {
 			}
 		});
 };
-var _user$project$Main$renderFieldForTrait = F5(
-	function (model, trait, traitValue, changeEvent, rollEvent) {
+var _user$project$Main$renderRollButton = F2(
+	function (trait, rollEvent) {
+		var labelForTrait = _user$project$Main$traitLabel(trait);
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('control roll-button'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('button is-medium is-info'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								rollEvent(trait)),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(
+							A2(_elm_lang$core$Basics_ops['++'], 'Roll ', labelForTrait)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Main$renderFieldForTrait = F4(
+	function (model, trait, traitValue, changeEvent) {
 		var labelForTrait = _user$project$Main$traitLabel(trait);
 		return A2(
 			_elm_lang$html$Html$div,
@@ -9269,7 +9302,7 @@ var _user$project$Main$renderFieldForTrait = F5(
 										_elm_lang$html$Html$div,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('field is-grouped'),
+											_0: _elm_lang$html$Html_Attributes$class('field'),
 											_1: {ctor: '[]'}
 										},
 										{
@@ -9311,39 +9344,7 @@ var _user$project$Main$renderFieldForTrait = F5(
 														{ctor: '[]'}),
 													_1: {ctor: '[]'}
 												}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$div,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$class('control is-expanded'),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$button,
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html_Attributes$class('button is-medium is-info'),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html_Events$onClick(
-																		rollEvent(trait)),
-																	_1: {ctor: '[]'}
-																}
-															},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text(
-																	A2(_elm_lang$core$Basics_ops['++'], 'Roll ', labelForTrait)),
-																_1: {ctor: '[]'}
-															}),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}
+											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
 								}),
@@ -9522,6 +9523,110 @@ var _user$project$Main$Change = F2(
 	function (a, b) {
 		return {ctor: 'Change', _0: a, _1: b};
 	});
+var _user$project$Main$renderAttributes = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('columns traits'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('column'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A4(
+						_user$project$Main$renderFieldForTrait,
+						model,
+						_user$project$Main$Mu,
+						A2(_user$project$Main$getTraitValue, _user$project$Main$Mu, model),
+						_user$project$Main$Change),
+					_1: {
+						ctor: '::',
+						_0: A4(
+							_user$project$Main$renderFieldForTrait,
+							model,
+							_user$project$Main$Kl,
+							A2(_user$project$Main$getTraitValue, _user$project$Main$Kl, model),
+							_user$project$Main$Change),
+						_1: {
+							ctor: '::',
+							_0: A4(
+								_user$project$Main$renderFieldForTrait,
+								model,
+								_user$project$Main$In,
+								A2(_user$project$Main$getTraitValue, _user$project$Main$In, model),
+								_user$project$Main$Change),
+							_1: {
+								ctor: '::',
+								_0: A4(
+									_user$project$Main$renderFieldForTrait,
+									model,
+									_user$project$Main$Ch,
+									A2(_user$project$Main$getTraitValue, _user$project$Main$Ch, model),
+									_user$project$Main$Change),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('column'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A4(
+							_user$project$Main$renderFieldForTrait,
+							model,
+							_user$project$Main$Ff,
+							A2(_user$project$Main$getTraitValue, _user$project$Main$Ff, model),
+							_user$project$Main$Change),
+						_1: {
+							ctor: '::',
+							_0: A4(
+								_user$project$Main$renderFieldForTrait,
+								model,
+								_user$project$Main$Ge,
+								A2(_user$project$Main$getTraitValue, _user$project$Main$Ge, model),
+								_user$project$Main$Change),
+							_1: {
+								ctor: '::',
+								_0: A4(
+									_user$project$Main$renderFieldForTrait,
+									model,
+									_user$project$Main$Ko,
+									A2(_user$project$Main$getTraitValue, _user$project$Main$Ko, model),
+									_user$project$Main$Change),
+								_1: {
+									ctor: '::',
+									_0: A4(
+										_user$project$Main$renderFieldForTrait,
+										model,
+										_user$project$Main$Kk,
+										A2(_user$project$Main$getTraitValue, _user$project$Main$Kk, model),
+										_user$project$Main$Change),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Main$Rolled = F2(
 	function (a, b) {
 		return {ctor: 'Rolled', _0: a, _1: b};
@@ -9572,12 +9677,12 @@ var _user$project$Main$update = F2(
 var _user$project$Main$Roll = function (a) {
 	return {ctor: 'Roll', _0: a};
 };
-var _user$project$Main$renderAttributes = function (model) {
+var _user$project$Main$renderRollButtons = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('columns traits'),
+			_0: _elm_lang$html$Html_Attributes$class('columns roll-buttons'),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -9586,100 +9691,30 @@ var _user$project$Main$renderAttributes = function (model) {
 				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('column'),
+					_0: _elm_lang$html$Html_Attributes$class('column is-1 is-offset-5'),
 					_1: {ctor: '[]'}
 				},
-				{
-					ctor: '::',
-					_0: A5(
-						_user$project$Main$renderFieldForTrait,
-						model,
-						_user$project$Main$Mu,
-						A2(_user$project$Main$getTraitValue, _user$project$Main$Mu, model),
-						_user$project$Main$Change,
-						_user$project$Main$Roll),
-					_1: {
-						ctor: '::',
-						_0: A5(
-							_user$project$Main$renderFieldForTrait,
-							model,
-							_user$project$Main$Kl,
-							A2(_user$project$Main$getTraitValue, _user$project$Main$Kl, model),
-							_user$project$Main$Change,
-							_user$project$Main$Roll),
-						_1: {
-							ctor: '::',
-							_0: A5(
-								_user$project$Main$renderFieldForTrait,
-								model,
-								_user$project$Main$In,
-								A2(_user$project$Main$getTraitValue, _user$project$Main$In, model),
-								_user$project$Main$Change,
-								_user$project$Main$Roll),
-							_1: {
-								ctor: '::',
-								_0: A5(
-									_user$project$Main$renderFieldForTrait,
-									model,
-									_user$project$Main$Ch,
-									A2(_user$project$Main$getTraitValue, _user$project$Main$Ch, model),
-									_user$project$Main$Change,
-									_user$project$Main$Roll),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}),
+				A2(
+					_elm_lang$core$List$map,
+					function (t) {
+						return A2(_user$project$Main$renderRollButton, t.trait, _user$project$Main$Roll);
+					},
+					A2(_elm_lang$core$List$take, 4, model.traits))),
 			_1: {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('column'),
+						_0: _elm_lang$html$Html_Attributes$class('column is-1'),
 						_1: {ctor: '[]'}
 					},
-					{
-						ctor: '::',
-						_0: A5(
-							_user$project$Main$renderFieldForTrait,
-							model,
-							_user$project$Main$Ff,
-							A2(_user$project$Main$getTraitValue, _user$project$Main$Ff, model),
-							_user$project$Main$Change,
-							_user$project$Main$Roll),
-						_1: {
-							ctor: '::',
-							_0: A5(
-								_user$project$Main$renderFieldForTrait,
-								model,
-								_user$project$Main$Ge,
-								A2(_user$project$Main$getTraitValue, _user$project$Main$Ge, model),
-								_user$project$Main$Change,
-								_user$project$Main$Roll),
-							_1: {
-								ctor: '::',
-								_0: A5(
-									_user$project$Main$renderFieldForTrait,
-									model,
-									_user$project$Main$Ko,
-									A2(_user$project$Main$getTraitValue, _user$project$Main$Ko, model),
-									_user$project$Main$Change,
-									_user$project$Main$Roll),
-								_1: {
-									ctor: '::',
-									_0: A5(
-										_user$project$Main$renderFieldForTrait,
-										model,
-										_user$project$Main$Kk,
-										A2(_user$project$Main$getTraitValue, _user$project$Main$Kk, model),
-										_user$project$Main$Change,
-										_user$project$Main$Roll),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}),
+					A2(
+						_elm_lang$core$List$map,
+						function (t) {
+							return A2(_user$project$Main$renderRollButton, t.trait, _user$project$Main$Roll);
+						},
+						A2(_elm_lang$core$List$drop, 4, model.traits))),
 				_1: {ctor: '[]'}
 			}
 		});
@@ -9741,8 +9776,12 @@ var _user$project$Main$view = function (model) {
 								_0: _user$project$Main$renderAttributes(model),
 								_1: {
 									ctor: '::',
-									_0: _user$project$Main$renderResultAndReset(rollsSum),
-									_1: {ctor: '[]'}
+									_0: _user$project$Main$renderRollButtons(model),
+									_1: {
+										ctor: '::',
+										_0: _user$project$Main$renderResultAndReset(rollsSum),
+										_1: {ctor: '[]'}
+									}
 								}
 							}),
 						_1: {
