@@ -10,3 +10,7 @@
   display: inline;
   padding-right: 15px;
 }
+
+.button:active {
+  transform: scale(0.85, 0.85);
+}

@@ -9110,38 +9110,21 @@ var _user$project$Main$analyseRolls = function (model) {
 		model.rolls);
 };
 var _user$project$Main$traitLabel = function (trait) {
-	var _p2 = trait;
-	switch (_p2.ctor) {
-		case 'Kl':
-			return 'KL';
-		case 'Ko':
-			return 'KO';
-		case 'Ff':
-			return 'FF';
-		case 'Kk':
-			return 'KK';
-		case 'Mu':
-			return 'MU';
-		case 'Ge':
-			return 'GE';
-		case 'In':
-			return 'IN';
-		default:
-			return 'CH';
-	}
+	return _elm_lang$core$String$toUpper(
+		_elm_lang$core$Basics$toString(trait));
 };
 var _user$project$Main$extractTraitRolls = function (model) {
 	return A2(
 		_elm_lang$core$List$map,
-		function (_p3) {
-			var _p4 = _p3;
+		function (_p2) {
+			var _p3 = _p2;
 			return A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Main$traitLabel(_p4._0),
+				_user$project$Main$traitLabel(_p3._0),
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					': ',
-					_elm_lang$core$Basics$toString(_p4._1)));
+					_elm_lang$core$Basics$toString(_p3._1)));
 		},
 		model.rolls);
 };
@@ -9529,8 +9512,8 @@ var _user$project$Main$Rolled = F2(
 	});
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p5 = msg;
-		switch (_p5.ctor) {
+		var _p4 = msg;
+		switch (_p4.ctor) {
 			case 'NoOp':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Roll':
@@ -9539,13 +9522,13 @@ var _user$project$Main$update = F2(
 					_0: model,
 					_1: A2(
 						_elm_lang$core$Random$generate,
-						_user$project$Main$Rolled(_p5._0),
+						_user$project$Main$Rolled(_p4._0),
 						A2(_elm_lang$core$Random$int, 1, 20))
 				};
 			case 'Rolled':
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_user$project$Main$addTraitRoll, _p5._1, _p5._0, model),
+					_0: A3(_user$project$Main$addTraitRoll, _p4._1, _p4._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Change':
@@ -9554,8 +9537,8 @@ var _user$project$Main$update = F2(
 					_0: A3(
 						_user$project$Main$updateTraitValue,
 						model,
-						_p5._0,
-						_user$project$Main$parseIntWithDefault(_p5._1)),
+						_p4._0,
+						_user$project$Main$parseIntWithDefault(_p4._1)),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
