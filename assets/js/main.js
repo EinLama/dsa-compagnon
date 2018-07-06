@@ -9413,62 +9413,22 @@ var _user$project$Main$renderResultAndReset = function (rollsSum) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('section result-and-reset'),
+			_0: _elm_lang$html$Html_Attributes$class('column is-2 is-offset-3 result-and-reset'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('control'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$classList(
-										{
-											ctor: '::',
-											_0: {
-												ctor: '_Tuple2',
-												_0: 'is-danger',
-												_1: _elm_lang$core$Native_Utils.cmp(rollsSum, 0) > 0
-											},
-											_1: {
-												ctor: '::',
-												_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
-												_1: {ctor: '[]'}
-											}
-										}),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(
-											_elm_lang$core$Basics$toString(rollsSum)),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$readonly(true),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+			_0: _elm_lang$html$Html$text('Attributswurf Summe:'),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
+						_1: {ctor: '[]'}
+					},
+					{
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$div,
@@ -9480,27 +9440,71 @@ var _user$project$Main$renderResultAndReset = function (rollsSum) {
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
+									_elm_lang$html$Html$input,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('button is-danger is-large'),
+										_0: _elm_lang$html$Html_Attributes$classList(
+											{
+												ctor: '::',
+												_0: {
+													ctor: '_Tuple2',
+													_0: 'is-danger',
+													_1: _elm_lang$core$Native_Utils.cmp(rollsSum, 0) > 0
+												},
+												_1: {
+													ctor: '::',
+													_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
+													_1: {ctor: '[]'}
+												}
+											}),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ResetRolls),
-											_1: {ctor: '[]'}
+											_0: _elm_lang$html$Html_Attributes$value(
+												_elm_lang$core$Basics$toString(rollsSum)),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$readonly(true),
+												_1: {ctor: '[]'}
+											}
 										}
 									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Reset'),
-										_1: {ctor: '[]'}
-									}),
+									{ctor: '[]'}),
 								_1: {ctor: '[]'}
 							}),
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('control'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('button is-danger is-large'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ResetRolls),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Reset'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Main$Change = F2(
@@ -9727,49 +9731,22 @@ var _user$project$Main$renderSingleRolls = function (model) {
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('section single-rolls'),
+			_0: _elm_lang$html$Html_Attributes$class('column is-3 is-offset-2 single-rolls'),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('control'),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$input,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('input is-large'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(
-											_elm_lang$core$Basics$toString(model.singleRoll)),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$readonly(true),
-											_1: {ctor: '[]'}
-										}
-									}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+			_0: _elm_lang$html$Html$text('Einen Einzelwurf durchführen:'),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
+						_1: {ctor: '[]'}
+					},
+					{
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$div,
@@ -9781,22 +9758,22 @@ var _user$project$Main$renderSingleRolls = function (model) {
 							{
 								ctor: '::',
 								_0: A2(
-									_elm_lang$html$Html$button,
+									_elm_lang$html$Html$input,
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$class('button is-large roll-6'),
+										_0: _elm_lang$html$Html_Attributes$class('input is-large'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onClick(
-												_user$project$Main$RollSingle(6)),
-											_1: {ctor: '[]'}
+											_0: _elm_lang$html$Html_Attributes$value(
+												_elm_lang$core$Basics$toString(model.singleRoll)),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$readonly(true),
+												_1: {ctor: '[]'}
+											}
 										}
 									},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text('Roll 6'),
-										_1: {ctor: '[]'}
-									}),
+									{ctor: '[]'}),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -9814,26 +9791,57 @@ var _user$project$Main$renderSingleRolls = function (model) {
 										_elm_lang$html$Html$button,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('button is-large roll-20'),
+											_0: _elm_lang$html$Html_Attributes$class('button is-large roll-6'),
 											_1: {
 												ctor: '::',
 												_0: _elm_lang$html$Html_Events$onClick(
-													_user$project$Main$RollSingle(20)),
+													_user$project$Main$RollSingle(6)),
 												_1: {ctor: '[]'}
 											}
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Roll 20'),
+											_0: _elm_lang$html$Html$text('Roll 6'),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('control'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('button is-large roll-20'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Main$RollSingle(20)),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Roll 20'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
-					}
-				}),
-			_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Main$view = function (model) {
@@ -9891,20 +9899,31 @@ var _user$project$Main$view = function (model) {
 							{
 								ctor: '::',
 								_0: _user$project$Main$renderAttributes(model),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Main$renderSingleRolls(model),
-									_1: {
-										ctor: '::',
-										_0: _user$project$Main$renderResultAndReset(rollsSum),
-										_1: {ctor: '[]'}
-									}
-								}
+								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Main$renderRolls(model),
-							_1: {ctor: '[]'}
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('columns'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _user$project$Main$renderResultAndReset(rollsSum),
+									_1: {
+										ctor: '::',
+										_0: _user$project$Main$renderSingleRolls(model),
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Main$renderRolls(model),
+								_1: {ctor: '[]'}
+							}
 						}
 					}),
 				_1: {ctor: '[]'}

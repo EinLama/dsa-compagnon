@@ -195,8 +195,10 @@ view model =
             , div [ class "section" ]
                 [ div [ class "container" ]
                     [ renderAttributes model
+                    ]
+                , div [ class "columns" ]
+                    [ renderResultAndReset rollsSum
                     , renderSingleRolls model
-                    , renderResultAndReset rollsSum
                     ]
                 , renderRolls model
 
@@ -207,8 +209,9 @@ view model =
 
 renderSingleRolls : Model -> Html Msg
 renderSingleRolls model =
-    div [ class "section single-rolls" ]
-        [ div [ class "field has-addons" ]
+    div [ class "column is-3 is-offset-2 single-rolls" ]
+        [ text "Einen Einzelwurf durchführen:"
+        , div [ class "field has-addons" ]
             [ div [ class "control" ]
                 [ input [ class "input is-large", value (model.singleRoll |> toString), readonly True ] []
                 ]
@@ -238,8 +241,9 @@ renderRolls model =
 
 renderResultAndReset : Int -> Html Msg
 renderResultAndReset rollsSum =
-    div [ class "section result-and-reset" ]
-        [ div [ class "field has-addons" ]
+    div [ class "column is-2 is-offset-3 result-and-reset" ]
+        [ text "Attributswurf Summe:"
+        , div [ class "field has-addons" ]
             [ div [ class "control" ]
                 [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
                 ]
