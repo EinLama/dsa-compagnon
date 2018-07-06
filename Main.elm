@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (Html, h1, input, label, button, div, text)
+import Html exposing (Html, button, div, h1, h2, input, label, li, ol, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Random
@@ -218,10 +218,13 @@ renderRolls : Model -> Html Msg
 renderRolls model =
     let
         rolls =
-            model |> extractTraitRolls |> String.join ", "
+            model |> extractTraitRolls |> List.reverse
     in
         div [ class "container" ]
-            [ input [ class "input", value rolls, readonly True ] []
+            [ h2 [ class "title" ] [ text "Ergebnisse" ]
+            , div [ class "container" ]
+                [ ol [] (List.map (\s -> li [] [ text s ]) rolls)
+                ]
             ]
 
 
