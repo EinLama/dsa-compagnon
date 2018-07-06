@@ -9182,13 +9182,21 @@ var _user$project$Main$renderRolls = function (model) {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$ol,
-							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('rolls'),
+								_1: {ctor: '[]'}
+							},
 							A2(
 								_elm_lang$core$List$map,
 								function (s) {
 									return A2(
 										_elm_lang$html$Html$li,
-										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('rolls-roll'),
+											_1: {ctor: '[]'}
+										},
 										{
 											ctor: '::',
 											_0: _elm_lang$html$Html$text(s),

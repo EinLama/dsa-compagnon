@@ -223,7 +223,7 @@ renderRolls model =
         div [ class "container" ]
             [ h2 [ class "title" ] [ text "Ergebnisse" ]
             , div [ class "container" ]
-                [ ol [] (List.map (\s -> li [] [ text s ]) rolls)
+                [ ol [ class "rolls" ] (List.map (\s -> li [ class "rolls-roll" ] [ text s ]) rolls)
                 ]
             ]
 

@@ -1,3 +1,10 @@
 .traits .trait {
   margin-bottom: 10px;
 }
+
+.rolls {
+}
+.rolls-roll {
+  display: inline;
+  padding-right: 15px;
+}
