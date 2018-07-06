@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (Html, input, label, button, div, text)
+import Html exposing (Html, h1, input, label, button, div, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Random
@@ -191,13 +191,33 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ class "section" ]
-        [ div [ class "container" ] [ renderAttributes model ]
-        , div [ class "field" ]
-            [ input [ value (model |> analyseRolls |> toString) ] []
-            , button [ class "button is-text", onClick ResetRolls ] [ text "Reset" ]
+    let
+        rollsSum =
+            model |> analyseRolls
+    in
+        div [ class "section" ]
+            [ div [ class "section" ] [ h1 [ class "title" ] [ text "DSA Compagnon" ] ]
+            , div [ class "section" ]
+                [ div [ class "container" ]
+                    [ renderAttributes model
+                    , renderResultAndReset rollsSum
+                    ]
+                , div [] [ text (toString model) ]
+                ]
             ]
-        , div [] [ text (toString model) ]
+
+
+renderResultAndReset : Int -> Html Msg
+renderResultAndReset rollsSum =
+    div [ class "section result-and-reset" ]
+        [ div [ class "field has-addons has-addons-centered" ]
+            [ div [ class "control" ]
+                [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString) ] []
+                ]
+            , div [ class "control" ]
+                [ button [ class "button is-danger is-large", onClick ResetRolls ] [ text "Reset" ]
+                ]
+            ]
         ]
 
 
@@ -226,14 +246,21 @@ renderFieldForTrait model trait traitValue changeEvent rollEvent =
             traitLabel trait
     in
         div [ class "trait" ]
-            [ div [ class "field" ]
-                [ label [ class "label" ] [ text labelForTrait ]
-                , div [ class "control" ]
-                    [ input [ class "input", placeholder labelForTrait, type_ "number", onInput (changeEvent trait), value (toString traitValue) ] []
+            [ div [ class "field is-horizontal" ]
+                [ div [ class "field-label" ]
+                    [ label [ class "label is-medium" ] [ text labelForTrait ]
                     ]
-                ]
-            , div
-                [ class "control" ]
-                [ button [ class "button is-link", onClick <| rollEvent trait ] [ text ("Roll " ++ labelForTrait) ]
+                , div
+                    [ class "field-body" ]
+                    [ div [ class "field is-grouped" ]
+                        [ div [ class "control" ]
+                            [ input [ class "input is-medium", placeholder labelForTrait, type_ "number", onInput (changeEvent trait), value (toString traitValue) ] []
+                            ]
+                        , div
+                            [ class "control is-expanded" ]
+                            [ button [ class "button is-medium is-info", onClick <| rollEvent trait ] [ text ("Roll " ++ labelForTrait) ]
+                            ]
+                        ]
+                    ]
                 ]
             ]
