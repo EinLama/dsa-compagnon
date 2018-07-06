@@ -87,30 +87,7 @@ type Msg
 
 traitLabel : Trait -> String
 traitLabel trait =
-    case trait of
-        Kl ->
-            "KL"
-
-        Ko ->
-            "KO"
-
-        Ff ->
-            "FF"
-
-        Kk ->
-            "KK"
-
-        Mu ->
-            "MU"
-
-        Ge ->
-            "GE"
-
-        In ->
-            "IN"
-
-        Ch ->
-            "CH"
+    trait |> toString |> String.toUpper
 
 
 updateTraitValue : Model -> Trait -> Int -> Model
