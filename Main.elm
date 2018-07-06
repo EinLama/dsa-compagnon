@@ -221,7 +221,7 @@ renderRolls model =
             model |> extractTraitRolls |> String.join ", "
     in
         div [ class "container" ]
-            [ input [ class "input", value rolls ] []
+            [ input [ class "input", value rolls, readonly True ] []
             ]
 
 
@@ -230,7 +230,7 @@ renderResultAndReset rollsSum =
     div [ class "section result-and-reset" ]
         [ div [ class "field has-addons has-addons-centered" ]
             [ div [ class "control" ]
-                [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString) ] []
+                [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
                 ]
             , div [ class "control" ]
                 [ button [ class "button is-danger is-large", onClick ResetRolls ] [ text "Reset" ]

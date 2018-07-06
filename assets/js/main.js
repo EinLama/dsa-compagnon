@@ -9167,7 +9167,11 @@ var _user$project$Main$renderRolls = function (model) {
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$value(rolls),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$readonly(true),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{ctor: '[]'}),
@@ -9437,7 +9441,11 @@ var _user$project$Main$renderResultAndReset = function (rollsSum) {
 										ctor: '::',
 										_0: _elm_lang$html$Html_Attributes$value(
 											_elm_lang$core$Basics$toString(rollsSum)),
-										_1: {ctor: '[]'}
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$readonly(true),
+											_1: {ctor: '[]'}
+										}
 									}
 								},
 								{ctor: '[]'}),
