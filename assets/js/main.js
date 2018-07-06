@@ -9146,9 +9146,7 @@ var _user$project$Main$extractTraitRolls = function (model) {
 		model.rolls);
 };
 var _user$project$Main$renderRolls = function (model) {
-	var rolls = A2(
-		_elm_lang$core$String$join,
-		', ',
+	var rolls = _elm_lang$core$List$reverse(
 		_user$project$Main$extractTraitRolls(model));
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9160,22 +9158,48 @@ var _user$project$Main$renderRolls = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$input,
+				_elm_lang$html$Html$h2,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('input'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$value(rolls),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$readonly(true),
-							_1: {ctor: '[]'}
-						}
-					}
+					_0: _elm_lang$html$Html_Attributes$class('title'),
+					_1: {ctor: '[]'}
 				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Ergebnisse'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('container'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ol,
+							{ctor: '[]'},
+							A2(
+								_elm_lang$core$List$map,
+								function (s) {
+									return A2(
+										_elm_lang$html$Html$li,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text(s),
+											_1: {ctor: '[]'}
+										});
+								},
+								rolls)),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _user$project$Main$renderFieldForTrait = F5(
