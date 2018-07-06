@@ -205,7 +205,6 @@ view model =
             , div [ class "section" ]
                 [ div [ class "container" ]
                     [ renderAttributes model
-                    , renderRollButtons model
                     , renderResultAndReset rollsSum
                     ]
                 , renderRolls model
@@ -232,7 +231,7 @@ renderRolls model =
 renderResultAndReset : Int -> Html Msg
 renderResultAndReset rollsSum =
     div [ class "section result-and-reset" ]
-        [ div [ class "field has-addons has-addons-centered" ]
+        [ div [ class "field has-addons has-addons" ]
             [ div [ class "control" ]
                 [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
                 ]
@@ -246,19 +245,21 @@ renderResultAndReset rollsSum =
 renderAttributes : Model -> Html Msg
 renderAttributes model =
     div [ class "columns traits" ]
-        [ div [ class "column" ]
+        ([ div [ class "column is-2" ]
             [ renderFieldForTrait model Mu (model |> getTraitValue Mu) Change
             , renderFieldForTrait model Kl (model |> getTraitValue Kl) Change
             , renderFieldForTrait model In (model |> getTraitValue In) Change
             , renderFieldForTrait model Ch (model |> getTraitValue Ch) Change
             ]
-        , div [ class "column" ]
+         , div [ class "column is-2" ]
             [ renderFieldForTrait model Ff (model |> getTraitValue Ff) Change
             , renderFieldForTrait model Ge (model |> getTraitValue Ge) Change
             , renderFieldForTrait model Ko (model |> getTraitValue Ko) Change
             , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change
             ]
-        ]
+         ]
+            ++ renderRollButtons model
+        )
 
 
 renderRollButton : Trait -> (Trait -> Msg) -> Html Msg
@@ -273,20 +274,19 @@ renderRollButton trait rollEvent =
             ]
 
 
-renderRollButtons : Model -> Html Msg
+renderRollButtons : Model -> List (Html Msg)
 renderRollButtons model =
-    div [ class "columns roll-buttons" ]
-        [ div [ class "column is-1 is-offset-5" ]
-            (model.traits
-                |> List.take 4
-                |> List.map (\t -> renderRollButton t.trait Roll)
-            )
-        , div [ class "column is-1" ]
-            (model.traits
-                |> List.drop 4
-                |> List.map (\t -> renderRollButton t.trait Roll)
-            )
-        ]
+    [ div [ class "column is-1" ]
+        (model.traits
+            |> List.take 4
+            |> List.map (\t -> renderRollButton t.trait Roll)
+        )
+    , div [ class "column is-1" ]
+        (model.traits
+            |> List.drop 4
+            |> List.map (\t -> renderRollButton t.trait Roll)
+        )
+    ]
 
 
 renderFieldForTrait : Model -> Trait -> Int -> (Trait -> String -> msg) -> Html msg
