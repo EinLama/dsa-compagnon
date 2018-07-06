@@ -58,6 +58,7 @@ type alias TraitRoll =
 type alias Model =
     { traits : List CharacterTrait
     , rolls : List TraitRoll
+    , singleRoll : Int
     }
 
 
@@ -74,11 +75,14 @@ model =
         , CharacterTrait Kk 9
         ]
     , rolls = []
+    , singleRoll = 0
     }
 
 
 type Msg
     = NoOp
+    | RollSingle Int
+    | RolledSingle Int
     | Roll Trait
     | Rolled Trait Int
     | Change Trait String
@@ -157,6 +161,12 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        RollSingle eyes ->
+            ( model, Random.generate RolledSingle (Random.int 1 eyes) )
+
+        RolledSingle result ->
+            ( { model | singleRoll = result }, Cmd.none )
+
         Roll trait ->
             ( model, Random.generate (Rolled trait) (Random.int 1 20) )
 
@@ -185,6 +195,7 @@ view model =
             , div [ class "section" ]
                 [ div [ class "container" ]
                     [ renderAttributes model
+                    , renderSingleRolls model
                     , renderResultAndReset rollsSum
                     ]
                 , renderRolls model
@@ -192,6 +203,23 @@ view model =
                 --, div [] [ text (toString model) ]
                 ]
             ]
+
+
+renderSingleRolls : Model -> Html Msg
+renderSingleRolls model =
+    div [ class "section single-rolls" ]
+        [ div [ class "field has-addons" ]
+            [ div [ class "control" ]
+                [ input [ class "input is-large", value (model.singleRoll |> toString), readonly True ] []
+                ]
+            , div [ class "control" ]
+                [ button [ class "button is-large roll-6", onClick (RollSingle 6) ] [ text "Roll 6" ]
+                ]
+            , div [ class "control" ]
+                [ button [ class "button is-large roll-20", onClick (RollSingle 20) ] [ text "Roll 20" ]
+                ]
+            ]
+        ]
 
 
 renderRolls : Model -> Html Msg
@@ -211,7 +239,7 @@ renderRolls model =
 renderResultAndReset : Int -> Html Msg
 renderResultAndReset rollsSum =
     div [ class "section result-and-reset" ]
-        [ div [ class "field has-addons has-addons" ]
+        [ div [ class "field has-addons" ]
             [ div [ class "control" ]
                 [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
                 ]
@@ -238,6 +266,7 @@ renderAttributes model =
             , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change
             ]
          ]
+            -- append roll buttons to the side
             ++ renderRollButtons model
         )
 

@@ -9357,9 +9357,9 @@ var _user$project$Main$updateTraitValue = F3(
 					model.traits)
 			});
 	});
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {traits: a, rolls: b};
+var _user$project$Main$Model = F3(
+	function (a, b, c) {
+		return {traits: a, rolls: b, singleRoll: c};
 	});
 var _user$project$Main$Ch = {ctor: 'Ch'};
 var _user$project$Main$In = {ctor: 'In'};
@@ -9403,7 +9403,8 @@ var _user$project$Main$model = {
 			}
 		}
 	},
-	rolls: {ctor: '[]'}
+	rolls: {ctor: '[]'},
+	singleRoll: 0
 };
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Main$ResetRolls = {ctor: 'ResetRolls'};
@@ -9421,7 +9422,7 @@ var _user$project$Main$renderResultAndReset = function (rollsSum) {
 				_elm_lang$html$Html$div,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('field has-addons has-addons'),
+					_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
 					_1: {ctor: '[]'}
 				},
 				{
@@ -9509,49 +9510,6 @@ var _user$project$Main$Change = F2(
 var _user$project$Main$Rolled = F2(
 	function (a, b) {
 		return {ctor: 'Rolled', _0: a, _1: b};
-	});
-var _user$project$Main$update = F2(
-	function (msg, model) {
-		var _p4 = msg;
-		switch (_p4.ctor) {
-			case 'NoOp':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			case 'Roll':
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: A2(
-						_elm_lang$core$Random$generate,
-						_user$project$Main$Rolled(_p4._0),
-						A2(_elm_lang$core$Random$int, 1, 20))
-				};
-			case 'Rolled':
-				return {
-					ctor: '_Tuple2',
-					_0: A3(_user$project$Main$addTraitRoll, _p4._1, _p4._0, model),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Change':
-				return {
-					ctor: '_Tuple2',
-					_0: A3(
-						_user$project$Main$updateTraitValue,
-						model,
-						_p4._0,
-						_user$project$Main$parseIntWithDefault(_p4._1)),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							rolls: {ctor: '[]'}
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-		}
 	});
 var _user$project$Main$Roll = function (a) {
 	return {ctor: 'Roll', _0: a};
@@ -9698,6 +9656,186 @@ var _user$project$Main$renderAttributes = function (model) {
 			},
 			_user$project$Main$renderRollButtons(model)));
 };
+var _user$project$Main$RolledSingle = function (a) {
+	return {ctor: 'RolledSingle', _0: a};
+};
+var _user$project$Main$update = F2(
+	function (msg, model) {
+		var _p4 = msg;
+		switch (_p4.ctor) {
+			case 'NoOp':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'RollSingle':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(
+						_elm_lang$core$Random$generate,
+						_user$project$Main$RolledSingle,
+						A2(_elm_lang$core$Random$int, 1, _p4._0))
+				};
+			case 'RolledSingle':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{singleRoll: _p4._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Roll':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(
+						_elm_lang$core$Random$generate,
+						_user$project$Main$Rolled(_p4._0),
+						A2(_elm_lang$core$Random$int, 1, 20))
+				};
+			case 'Rolled':
+				return {
+					ctor: '_Tuple2',
+					_0: A3(_user$project$Main$addTraitRoll, _p4._1, _p4._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Change':
+				return {
+					ctor: '_Tuple2',
+					_0: A3(
+						_user$project$Main$updateTraitValue,
+						model,
+						_p4._0,
+						_user$project$Main$parseIntWithDefault(_p4._1)),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							rolls: {ctor: '[]'}
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _user$project$Main$RollSingle = function (a) {
+	return {ctor: 'RollSingle', _0: a};
+};
+var _user$project$Main$renderSingleRolls = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('section single-rolls'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('control'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$input,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('input is-large'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$value(
+											_elm_lang$core$Basics$toString(model.singleRoll)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$readonly(true),
+											_1: {ctor: '[]'}
+										}
+									}
+								},
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('control'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('button is-large roll-6'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Main$RollSingle(6)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Roll 6'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$div,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('control'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('button is-large roll-20'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Main$RollSingle(20)),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Roll 20'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Main$view = function (model) {
 	var rollsSum = _user$project$Main$analyseRolls(model);
 	return A2(
@@ -9755,8 +9893,12 @@ var _user$project$Main$view = function (model) {
 								_0: _user$project$Main$renderAttributes(model),
 								_1: {
 									ctor: '::',
-									_0: _user$project$Main$renderResultAndReset(rollsSum),
-									_1: {ctor: '[]'}
+									_0: _user$project$Main$renderSingleRolls(model),
+									_1: {
+										ctor: '::',
+										_0: _user$project$Main$renderResultAndReset(rollsSum),
+										_1: {ctor: '[]'}
+									}
 								}
 							}),
 						_1: {
