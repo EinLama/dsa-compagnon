@@ -9130,6 +9130,50 @@ var _user$project$Main$traitLabel = function (trait) {
 			return 'CH';
 	}
 };
+var _user$project$Main$extractTraitRolls = function (model) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (_p3) {
+			var _p4 = _p3;
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Main$traitLabel(_p4._0),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					': ',
+					_elm_lang$core$Basics$toString(_p4._1)));
+		},
+		model.rolls);
+};
+var _user$project$Main$renderRolls = function (model) {
+	var rolls = A2(
+		_elm_lang$core$String$join,
+		', ',
+		_user$project$Main$extractTraitRolls(model));
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('container'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('input'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$value(rolls),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Main$renderFieldForTrait = F5(
 	function (model, trait, traitValue, changeEvent, rollEvent) {
 		var labelForTrait = _user$project$Main$traitLabel(trait);
@@ -9444,8 +9488,8 @@ var _user$project$Main$Rolled = F2(
 	});
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p3 = msg;
-		switch (_p3.ctor) {
+		var _p5 = msg;
+		switch (_p5.ctor) {
 			case 'NoOp':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Roll':
@@ -9454,13 +9498,13 @@ var _user$project$Main$update = F2(
 					_0: model,
 					_1: A2(
 						_elm_lang$core$Random$generate,
-						_user$project$Main$Rolled(_p3._0),
+						_user$project$Main$Rolled(_p5._0),
 						A2(_elm_lang$core$Random$int, 1, 20))
 				};
 			case 'Rolled':
 				return {
 					ctor: '_Tuple2',
-					_0: A3(_user$project$Main$addTraitRoll, _p3._1, _p3._0, model),
+					_0: A3(_user$project$Main$addTraitRoll, _p5._1, _p5._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Change':
@@ -9469,8 +9513,8 @@ var _user$project$Main$update = F2(
 					_0: A3(
 						_user$project$Main$updateTraitValue,
 						model,
-						_p3._0,
-						_user$project$Main$parseIntWithDefault(_p3._1)),
+						_p5._0,
+						_user$project$Main$parseIntWithDefault(_p5._1)),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
@@ -9663,15 +9707,7 @@ var _user$project$Main$view = function (model) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(
-										_elm_lang$core$Basics$toString(model)),
-									_1: {ctor: '[]'}
-								}),
+							_0: _user$project$Main$renderRolls(model),
 							_1: {ctor: '[]'}
 						}
 					}),

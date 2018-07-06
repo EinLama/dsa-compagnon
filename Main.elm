@@ -157,6 +157,11 @@ compareRollForTrait traitValue rollValue =
         rollValue - traitValue
 
 
+extractTraitRolls : Model -> List String
+extractTraitRolls model =
+    model.rolls |> List.map (\( trait, value ) -> (traitLabel trait) ++ ": " ++ (toString value))
+
+
 parseIntWithDefault : String -> Int
 parseIntWithDefault str =
     String.toInt str |> Result.withDefault 0
@@ -202,8 +207,21 @@ view model =
                     [ renderAttributes model
                     , renderResultAndReset rollsSum
                     ]
-                , div [] [ text (toString model) ]
+                , renderRolls model
+
+                --, div [] [ text (toString model) ]
                 ]
+            ]
+
+
+renderRolls : Model -> Html Msg
+renderRolls model =
+    let
+        rolls =
+            model |> extractTraitRolls |> String.join ", "
+    in
+        div [ class "container" ]
+            [ input [ class "input", value rolls ] []
             ]
 
 
