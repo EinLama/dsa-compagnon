@@ -87,7 +87,10 @@ type Msg
 
 traitLabel : Trait -> String
 traitLabel trait =
-    trait |> toString |> String.toUpper
+    -- this will no longer be valid in elm 0.19
+    trait
+        |> toString
+        |> String.toUpper
 
 
 updateTraitValue : Model -> Trait -> Int -> Model
