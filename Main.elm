@@ -84,7 +84,9 @@ type Msg
     | RollSingle Int
     | RolledSingle Int
     | Roll Trait
+    | RollThree (List Trait)
     | Rolled Trait Int
+    | RolledThree (List Trait) (List Int)
     | Change Trait String
     | ResetRolls
 
@@ -125,6 +127,11 @@ getTraitValue trait model =
 addTraitRoll : Int -> Trait -> Model -> Model
 addTraitRoll value trait model =
     { model | rolls = ( trait, value ) :: model.rolls }
+
+
+addTraitRolls : List TraitRoll -> Model -> Model
+addTraitRolls results model =
+    { model | rolls = (results :: [ model.rolls ]) |> List.concat }
 
 
 analyseRolls : Model -> Int
@@ -168,16 +175,36 @@ update msg model =
             ( { model | singleRoll = result }, Cmd.none )
 
         Roll trait ->
-            ( model, Random.generate (Rolled trait) (Random.int 1 20) )
+            ( model, Random.generate (Rolled trait) twentySidedDieGen )
 
         Rolled trait result ->
             ( addTraitRoll result trait model, Cmd.none )
+
+        RollThree traits ->
+            let
+                threeDice =
+                    Random.list 3 twentySidedDieGen
+            in
+                ( model, Random.generate (RolledThree traits) threeDice )
+
+        RolledThree traits results ->
+            let
+                zipped =
+                    List.map2 (,) traits results
+            in
+                ( addTraitRolls zipped model, Cmd.none )
 
         Change trait value ->
             ( updateTraitValue model trait (parseIntWithDefault value), Cmd.none )
 
         ResetRolls ->
             ( { model | rolls = [] }, Cmd.none )
+
+
+twentySidedDieGen : Random.Generator Int
+twentySidedDieGen =
+    -- TODO: possibly return a Random.pair here:
+    Random.int 1 20
 
 
 
@@ -201,6 +228,7 @@ view model =
                     , renderSingleRolls model
                     ]
                 , renderRolls model
+                , renderTalents model
 
                 --, div [] [ text (toString model) ]
                 ]
@@ -273,6 +301,20 @@ renderAttributes model =
             -- append roll buttons to the side
             ++ renderRollButtons model
         )
+
+
+renderTalents : Model -> Html Msg
+renderTalents model =
+    div [ class "columns talents" ]
+        [ renderTalentButton model [ Mu, Mu, Kl ] "MuMuKl" ]
+
+
+renderTalentButton : Model -> List Trait -> String -> Html Msg
+renderTalentButton model traits label =
+    div
+        [ class "control roll-button" ]
+        [ button [ class "button is-medium is-info", onClick <| RollThree traits ] [ text label ]
+        ]
 
 
 renderRollButton : Trait -> (Trait -> Msg) -> Html Msg

@@ -9051,6 +9051,7 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$Main$twentySidedDieGen = A2(_elm_lang$core$Random$int, 1, 20);
 var _user$project$Main$parseIntWithDefault = function (str) {
 	return A2(
 		_elm_lang$core$Result$withDefault,
@@ -9060,6 +9061,23 @@ var _user$project$Main$parseIntWithDefault = function (str) {
 var _user$project$Main$compareRollForTrait = F2(
 	function (traitValue, rollValue) {
 		return (_elm_lang$core$Native_Utils.cmp(rollValue, traitValue) < 1) ? 0 : (rollValue - traitValue);
+	});
+var _user$project$Main$addTraitRolls = F2(
+	function (results, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				rolls: _elm_lang$core$List$concat(
+					{
+						ctor: '::',
+						_0: results,
+						_1: {
+							ctor: '::',
+							_0: model.rolls,
+							_1: {ctor: '[]'}
+						}
+					})
+			});
 	});
 var _user$project$Main$addTraitRoll = F3(
 	function (value, trait, model) {
@@ -9511,10 +9529,78 @@ var _user$project$Main$Change = F2(
 	function (a, b) {
 		return {ctor: 'Change', _0: a, _1: b};
 	});
+var _user$project$Main$RolledThree = F2(
+	function (a, b) {
+		return {ctor: 'RolledThree', _0: a, _1: b};
+	});
 var _user$project$Main$Rolled = F2(
 	function (a, b) {
 		return {ctor: 'Rolled', _0: a, _1: b};
 	});
+var _user$project$Main$RollThree = function (a) {
+	return {ctor: 'RollThree', _0: a};
+};
+var _user$project$Main$renderTalentButton = F3(
+	function (model, traits, label) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('control roll-button'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('button is-medium is-info'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(
+								_user$project$Main$RollThree(traits)),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(label),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Main$renderTalents = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('columns talents'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A3(
+				_user$project$Main$renderTalentButton,
+				model,
+				{
+					ctor: '::',
+					_0: _user$project$Main$Mu,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Main$Mu,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Main$Kl,
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				'MuMuKl'),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Main$Roll = function (a) {
 	return {ctor: 'Roll', _0: a};
 };
@@ -9693,12 +9779,36 @@ var _user$project$Main$update = F2(
 					_1: A2(
 						_elm_lang$core$Random$generate,
 						_user$project$Main$Rolled(_p4._0),
-						A2(_elm_lang$core$Random$int, 1, 20))
+						_user$project$Main$twentySidedDieGen)
 				};
 			case 'Rolled':
 				return {
 					ctor: '_Tuple2',
 					_0: A3(_user$project$Main$addTraitRoll, _p4._1, _p4._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'RollThree':
+				var threeDice = A2(_elm_lang$core$Random$list, 3, _user$project$Main$twentySidedDieGen);
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(
+						_elm_lang$core$Random$generate,
+						_user$project$Main$RolledThree(_p4._0),
+						threeDice)
+				};
+			case 'RolledThree':
+				var zipped = A3(
+					_elm_lang$core$List$map2,
+					F2(
+						function (v0, v1) {
+							return {ctor: '_Tuple2', _0: v0, _1: v1};
+						}),
+					_p4._0,
+					_p4._1);
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_user$project$Main$addTraitRolls, zipped, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Change':
@@ -9922,7 +10032,11 @@ var _user$project$Main$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _user$project$Main$renderRolls(model),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: _user$project$Main$renderTalents(model),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}),
