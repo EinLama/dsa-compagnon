@@ -51,12 +51,19 @@ type alias CharacterTrait =
     }
 
 
+type alias Talent =
+    { title : String
+    , traits : List Trait
+    }
+
+
 type alias TraitRoll =
     ( Trait, Int )
 
 
 type alias Model =
     { traits : List CharacterTrait
+    , talents : List Talent
     , rolls : List TraitRoll
     , singleRoll : Int
     }
@@ -73,6 +80,10 @@ model =
         , CharacterTrait Ge 12
         , CharacterTrait Ko 11
         , CharacterTrait Kk 9
+        ]
+    , talents =
+        [ Talent "Klettern" [ Mu, Mu, Ff ]
+        , Talent "Götter und Kulte" [ Kl, Kl, In ]
         ]
     , rolls = []
     , singleRoll = 0
@@ -228,7 +239,6 @@ view model =
                     , renderSingleRolls model
                     ]
                 , renderRolls model
-                , renderTalents model
 
                 --, div [] [ text (toString model) ]
                 ]
@@ -300,24 +310,25 @@ renderAttributes model =
          ]
             -- append roll buttons to the side
             ++ renderRollButtons model
+            ++ [ renderTalents model ]
         )
 
 
 renderTalents : Model -> Html Msg
 renderTalents model =
-    div [ class "columns talents" ]
-        [ renderTalentButton model [ Mu, Mu, Kl ] "Klettern" ]
+    div [ class "column is-2 talents" ]
+        (List.map renderTalentButton model.talents)
 
 
-renderTalentButton : Model -> List Trait -> String -> Html Msg
-renderTalentButton model traits talentName =
+renderTalentButton : Talent -> Html Msg
+renderTalentButton talent =
     let
         buttonLabel =
-            String.join " " [ talentName, (traitsForTalents traits) ]
+            String.join " " [ talent.title, (traitsForTalents talent.traits) ]
     in
         div
             [ class "control roll-button" ]
-            [ button [ class "button is-medium is-info", onClick <| RollThree traits ] [ text buttonLabel ]
+            [ button [ class "button is-medium is-info", onClick <| RollThree talent.traits ] [ text buttonLabel ]
             ]
 
 

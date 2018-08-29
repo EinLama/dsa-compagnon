@@ -9397,9 +9397,13 @@ var _user$project$Main$updateTraitValue = F3(
 					model.traits)
 			});
 	});
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {traits: a, rolls: b, singleRoll: c};
+var _user$project$Main$Talent = F2(
+	function (a, b) {
+		return {title: a, traits: b};
+	});
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {traits: a, talents: b, rolls: c, singleRoll: d};
 	});
 var _user$project$Main$Ch = {ctor: 'Ch'};
 var _user$project$Main$In = {ctor: 'In'};
@@ -9441,6 +9445,45 @@ var _user$project$Main$model = {
 					}
 				}
 			}
+		}
+	},
+	talents: {
+		ctor: '::',
+		_0: A2(
+			_user$project$Main$Talent,
+			'Klettern',
+			{
+				ctor: '::',
+				_0: _user$project$Main$Mu,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Main$Mu,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Main$Ff,
+						_1: {ctor: '[]'}
+					}
+				}
+			}),
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_user$project$Main$Talent,
+				'Götter und Kulte',
+				{
+					ctor: '::',
+					_0: _user$project$Main$Kl,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Main$Kl,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Main$In,
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			_1: {ctor: '[]'}
 		}
 	},
 	rolls: {ctor: '[]'},
@@ -9562,78 +9605,57 @@ var _user$project$Main$Rolled = F2(
 var _user$project$Main$RollThree = function (a) {
 	return {ctor: 'RollThree', _0: a};
 };
-var _user$project$Main$renderTalentButton = F3(
-	function (model, traits, talentName) {
-		var buttonLabel = A2(
-			_elm_lang$core$String$join,
-			' ',
-			{
+var _user$project$Main$renderTalentButton = function (talent) {
+	var buttonLabel = A2(
+		_elm_lang$core$String$join,
+		' ',
+		{
+			ctor: '::',
+			_0: talent.title,
+			_1: {
 				ctor: '::',
-				_0: talentName,
-				_1: {
+				_0: _user$project$Main$traitsForTalents(talent.traits),
+				_1: {ctor: '[]'}
+			}
+		});
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('control roll-button'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$button,
+				{
 					ctor: '::',
-					_0: _user$project$Main$traitsForTalents(traits),
-					_1: {ctor: '[]'}
-				}
-			});
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('control roll-button'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$button,
-					{
+					_0: _elm_lang$html$Html_Attributes$class('button is-medium is-info'),
+					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('button is-medium is-info'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Main$RollThree(traits)),
-							_1: {ctor: '[]'}
-						}
-					},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(buttonLabel),
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Main$RollThree(talent.traits)),
 						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			});
-	});
+					}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(buttonLabel),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Main$renderTalents = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('columns talents'),
+			_0: _elm_lang$html$Html_Attributes$class('column is-2 talents'),
 			_1: {ctor: '[]'}
 		},
-		{
-			ctor: '::',
-			_0: A3(
-				_user$project$Main$renderTalentButton,
-				model,
-				{
-					ctor: '::',
-					_0: _user$project$Main$Mu,
-					_1: {
-						ctor: '::',
-						_0: _user$project$Main$Mu,
-						_1: {
-							ctor: '::',
-							_0: _user$project$Main$Kl,
-							_1: {ctor: '[]'}
-						}
-					}
-				},
-				'Klettern'),
-			_1: {ctor: '[]'}
-		});
+		A2(_elm_lang$core$List$map, _user$project$Main$renderTalentButton, model.talents));
 };
 var _user$project$Main$Roll = function (a) {
 	return {ctor: 'Roll', _0: a};
@@ -9778,7 +9800,14 @@ var _user$project$Main$renderAttributes = function (model) {
 					_1: {ctor: '[]'}
 				}
 			},
-			_user$project$Main$renderRollButtons(model)));
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$Main$renderRollButtons(model),
+				{
+					ctor: '::',
+					_0: _user$project$Main$renderTalents(model),
+					_1: {ctor: '[]'}
+				})));
 };
 var _user$project$Main$RolledSingle = function (a) {
 	return {ctor: 'RolledSingle', _0: a};
@@ -10066,11 +10095,7 @@ var _user$project$Main$view = function (model) {
 							_1: {
 								ctor: '::',
 								_0: _user$project$Main$renderRolls(model),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Main$renderTalents(model),
-									_1: {ctor: '[]'}
-								}
+								_1: {ctor: '[]'}
 							}
 						}
 					}),
