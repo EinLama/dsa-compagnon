@@ -11,6 +11,18 @@
   padding-right: 15px;
 }
 
+.rolls {
+  margin-bottom: 1em;
+}
+
 .button:active {
   transform: scale(0.85, 0.85);
+}
+
+.is-fail {
+  color: #ff2222;
+}
+
+.is-crit {
+  color: #22cc22;
 }

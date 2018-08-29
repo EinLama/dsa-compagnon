@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Html exposing (Html, button, div, h1, h2, input, label, li, ol, text)
+import Html exposing (Html, button, div, h1, h2, h3, input, label, li, ol, ul, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Random
@@ -156,6 +156,16 @@ addTalentRoll rollResults talent model =
     }
 
 
+countOnesInRoll : List TraitRoll -> Int
+countOnesInRoll rolls =
+    rolls |> List.filter (\( _, rollValue ) -> rollValue == 1) |> List.length
+
+
+countTwentiesInRoll : List TraitRoll -> Int
+countTwentiesInRoll rolls =
+    rolls |> List.filter (\( _, rollValue ) -> rollValue == 20) |> List.length
+
+
 analyseRolls : Model -> Int
 analyseRolls model =
     model.rolls
@@ -250,6 +260,7 @@ view model =
                     , renderSingleRolls model
                     ]
                 , renderRolls model
+                , renderCrit model
 
                 --, div [] [ text (toString model) ]
                 ]
@@ -272,6 +283,29 @@ renderSingleRolls model =
                 ]
             ]
         ]
+
+
+renderCrit : Model -> Html Msg
+renderCrit model =
+    let
+        hasFail =
+            (model.rolls |> countTwentiesInRoll) >= 2
+
+        hasCrit =
+            (model.rolls |> countOnesInRoll) >= 2
+    in
+        div [ class "container" ]
+            [ h3 [ class "subtitle" ] [ text "Krit. Erfolg / Patzer" ]
+            , ul [ class "" ]
+                [ addFailOrCritLabel "krit. Erfolg" "is-crit" hasCrit
+                , addFailOrCritLabel "gepatzt" "is-fail" hasFail
+                ]
+            ]
+
+
+addFailOrCritLabel : String -> String -> Bool -> Html Msg
+addFailOrCritLabel txt clazz hasHappened =
+    li [ classList [ ( "is-invisible", not hasHappened ), ( clazz, True ) ] ] [ text txt ]
 
 
 renderRolls : Model -> Html Msg
