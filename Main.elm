@@ -54,6 +54,7 @@ type alias CharacterTrait =
 type alias Talent =
     { title : String
     , traits : List Trait
+    , value : Int -- skilled value for this talent
     }
 
 
@@ -66,6 +67,7 @@ type alias Model =
     , talents : List Talent
     , rolls : List TraitRoll
     , singleRoll : Int
+    , rolledTalent : Maybe Talent
     }
 
 
@@ -82,11 +84,12 @@ model =
         , CharacterTrait Kk 9
         ]
     , talents =
-        [ Talent "Klettern" [ Mu, Mu, Ff ]
-        , Talent "Götter und Kulte" [ Kl, Kl, In ]
+        [ Talent "Klettern" [ Mu, Mu, Ff ] 5
+        , Talent "Götter und Kulte" [ Kl, Kl, In ] 3
         ]
     , rolls = []
     , singleRoll = 0
+    , rolledTalent = Maybe.Nothing
     }
 
 
@@ -95,9 +98,9 @@ type Msg
     | RollSingle Int
     | RolledSingle Int
     | Roll Trait
-    | RollThree (List Trait)
+    | RollTalent Talent
     | Rolled Trait Int
-    | RolledThree (List Trait) (List Int)
+    | RolledTalent Talent (List Int)
     | Change Trait String
     | ResetRolls
 
@@ -145,9 +148,17 @@ addTraitRolls results model =
     { model | rolls = (results :: [ model.rolls ]) |> List.concat }
 
 
-analyseRolls : Model -> Int
-analyseRolls model =
-    model.rolls
+addTalentRoll : List TraitRoll -> Talent -> Model -> Model
+addTalentRoll rollResults talent model =
+    { model
+        | rolls = (addTraitRolls rollResults model).rolls
+        , rolledTalent = Maybe.Just talent
+    }
+
+
+analyseRolls : List TraitRoll -> Int
+analyseRolls traitRolls =
+    traitRolls
         |> List.foldl (\( rollTrait, rollValue ) total -> total + compareRollForTrait (model |> getTraitValue rollTrait) rollValue) 0
 
 
@@ -191,30 +202,30 @@ update msg model =
         Rolled trait result ->
             ( addTraitRoll result trait model, Cmd.none )
 
-        RollThree traits ->
+        RollTalent talent ->
             let
                 threeDice =
                     Random.list 3 twentySidedDieGen
             in
-                ( model, Random.generate (RolledThree traits) threeDice )
+                ( model, Random.generate (RolledTalent talent) threeDice )
 
-        RolledThree traits results ->
+        RolledTalent talent results ->
             let
                 zipped =
-                    List.map2 (,) traits results
+                    List.map2 (,) talent.traits results
             in
-                ( addTraitRolls zipped model, Cmd.none )
+                ( addTalentRoll zipped talent model, Cmd.none )
 
         Change trait value ->
             ( updateTraitValue model trait (parseIntWithDefault value), Cmd.none )
 
         ResetRolls ->
-            ( { model | rolls = [] }, Cmd.none )
+            ( { model | rolls = [], rolledTalent = Maybe.Nothing }, Cmd.none )
 
 
 twentySidedDieGen : Random.Generator Int
 twentySidedDieGen =
-    -- TODO: possibly return a Random.pair here:
+    -- possibly return a Random.pair here:
     Random.int 1 20
 
 
@@ -226,7 +237,7 @@ view : Model -> Html Msg
 view model =
     let
         rollsSum =
-            model |> analyseRolls
+            model.rolls |> analyseRolls
     in
         div [ class "section" ]
             [ div [ class "section" ] [ h1 [ class "title" ] [ text "DSA Compagnon" ] ]
@@ -235,7 +246,7 @@ view model =
                     [ renderAttributes model
                     ]
                 , div [ class "columns" ]
-                    [ renderResultAndReset rollsSum
+                    [ renderResultAndReset rollsSum (model.rolledTalent |> Maybe.map .value |> Maybe.withDefault 0)
                     , renderSingleRolls model
                     ]
                 , renderRolls model
@@ -277,19 +288,26 @@ renderRolls model =
             ]
 
 
-renderResultAndReset : Int -> Html Msg
-renderResultAndReset rollsSum =
-    div [ class "column is-2 is-offset-3 result-and-reset" ]
-        [ text "Attributswurf Summe:"
-        , div [ class "field has-addons" ]
-            [ div [ class "control" ]
-                [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
-                ]
-            , div [ class "control" ]
-                [ button [ class "button is-danger is-large", onClick ResetRolls ] [ text "Reset" ]
+renderResultAndReset : Int -> Int -> Html Msg
+renderResultAndReset rollsSum talentValue =
+    let
+        talentPointsLeft =
+            talentValue - rollsSum
+    in
+        div [ class "column is-2 is-offset-3 result-and-reset" ]
+            [ text "Wurf Attribut, Talent:"
+            , div [ class "field has-addons" ]
+                [ div [ class "control" ]
+                    [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
+                    ]
+                , div [ class "control" ]
+                    [ input [ classList [ ( "is-danger", talentPointsLeft < 0 ), ( "input is-large", True ) ], value (talentPointsLeft |> toString), readonly True ] []
+                    ]
+                , div [ class "control" ]
+                    [ button [ class "button is-danger is-large", onClick ResetRolls ] [ text "Reset" ]
+                    ]
                 ]
             ]
-        ]
 
 
 renderAttributes : Model -> Html Msg
@@ -324,11 +342,11 @@ renderTalentButton : Talent -> Html Msg
 renderTalentButton talent =
     let
         buttonLabel =
-            String.join " " [ talent.title, (traitsForTalents talent.traits) ]
+            String.join " " [ talent.title, traitsForTalents talent.traits, toString talent.value ]
     in
         div
             [ class "control roll-button" ]
-            [ button [ class "button is-medium is-info", onClick <| RollThree talent.traits ] [ text buttonLabel ]
+            [ button [ class "button is-medium is-info", onClick <| RollTalent talent ] [ text buttonLabel ]
             ]
 
 
@@ -336,7 +354,7 @@ traitsForTalents : List Trait -> String
 traitsForTalents traits =
     let
         traitsStr =
-            String.join "/" (List.map toString traits)
+            String.join "/" (List.map traitLabel traits)
     in
         String.join "" [ "(", traitsStr, ")" ]
 

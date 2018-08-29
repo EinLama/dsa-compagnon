@@ -9051,28 +9051,6 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Main$traitsForTalents = function (traits) {
-	var traitsStr = A2(
-		_elm_lang$core$String$join,
-		'/',
-		A2(_elm_lang$core$List$map, _elm_lang$core$Basics$toString, traits));
-	return A2(
-		_elm_lang$core$String$join,
-		'',
-		{
-			ctor: '::',
-			_0: '(',
-			_1: {
-				ctor: '::',
-				_0: traitsStr,
-				_1: {
-					ctor: '::',
-					_0: ')',
-					_1: {ctor: '[]'}
-				}
-			}
-		});
-};
 var _user$project$Main$twentySidedDieGen = A2(_elm_lang$core$Random$int, 1, 20);
 var _user$project$Main$parseIntWithDefault = function (str) {
 	return A2(
@@ -9099,6 +9077,15 @@ var _user$project$Main$addTraitRolls = F2(
 							_1: {ctor: '[]'}
 						}
 					})
+			});
+	});
+var _user$project$Main$addTalentRoll = F3(
+	function (rollResults, talent, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				rolls: A2(_user$project$Main$addTraitRolls, rollResults, model).rolls,
+				rolledTalent: _elm_lang$core$Maybe$Just(talent)
 			});
 	});
 var _user$project$Main$addTraitRoll = F3(
@@ -9135,20 +9122,6 @@ var _user$project$Main$getTraitValue = F2(
 				},
 				A2(_user$project$Main$getTrait, trait, model)));
 	});
-var _user$project$Main$analyseRolls = function (model) {
-	return A3(
-		_elm_lang$core$List$foldl,
-		F2(
-			function (_p0, total) {
-				var _p1 = _p0;
-				return total + A2(
-					_user$project$Main$compareRollForTrait,
-					A2(_user$project$Main$getTraitValue, _p1._0, model),
-					_p1._1);
-			}),
-		0,
-		model.rolls);
-};
 var _user$project$Main$traitLabel = function (trait) {
 	return _elm_lang$core$String$toUpper(
 		_elm_lang$core$Basics$toString(trait));
@@ -9156,15 +9129,15 @@ var _user$project$Main$traitLabel = function (trait) {
 var _user$project$Main$extractTraitRolls = function (model) {
 	return A2(
 		_elm_lang$core$List$map,
-		function (_p2) {
-			var _p3 = _p2;
+		function (_p0) {
+			var _p1 = _p0;
 			return A2(
 				_elm_lang$core$Basics_ops['++'],
-				_user$project$Main$traitLabel(_p3._0),
+				_user$project$Main$traitLabel(_p1._0),
 				A2(
 					_elm_lang$core$Basics_ops['++'],
 					': ',
-					_elm_lang$core$Basics$toString(_p3._1)));
+					_elm_lang$core$Basics$toString(_p1._1)));
 		},
 		model.rolls);
 };
@@ -9230,6 +9203,28 @@ var _user$project$Main$renderRolls = function (model) {
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Main$traitsForTalents = function (traits) {
+	var traitsStr = A2(
+		_elm_lang$core$String$join,
+		'/',
+		A2(_elm_lang$core$List$map, _user$project$Main$traitLabel, traits));
+	return A2(
+		_elm_lang$core$String$join,
+		'',
+		{
+			ctor: '::',
+			_0: '(',
+			_1: {
+				ctor: '::',
+				_0: traitsStr,
+				_1: {
+					ctor: '::',
+					_0: ')',
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
@@ -9397,13 +9392,13 @@ var _user$project$Main$updateTraitValue = F3(
 					model.traits)
 			});
 	});
-var _user$project$Main$Talent = F2(
-	function (a, b) {
-		return {title: a, traits: b};
+var _user$project$Main$Talent = F3(
+	function (a, b, c) {
+		return {title: a, traits: b, value: c};
 	});
-var _user$project$Main$Model = F4(
-	function (a, b, c, d) {
-		return {traits: a, talents: b, rolls: c, singleRoll: d};
+var _user$project$Main$Model = F5(
+	function (a, b, c, d, e) {
+		return {traits: a, talents: b, rolls: c, singleRoll: d, rolledTalent: e};
 	});
 var _user$project$Main$Ch = {ctor: 'Ch'};
 var _user$project$Main$In = {ctor: 'In'};
@@ -9449,7 +9444,7 @@ var _user$project$Main$model = {
 	},
 	talents: {
 		ctor: '::',
-		_0: A2(
+		_0: A3(
 			_user$project$Main$Talent,
 			'Klettern',
 			{
@@ -9464,10 +9459,11 @@ var _user$project$Main$model = {
 						_1: {ctor: '[]'}
 					}
 				}
-			}),
+			},
+			5),
 		_1: {
 			ctor: '::',
-			_0: A2(
+			_0: A3(
 				_user$project$Main$Talent,
 				'Götter und Kulte',
 				{
@@ -9482,79 +9478,54 @@ var _user$project$Main$model = {
 							_1: {ctor: '[]'}
 						}
 					}
-				}),
+				},
+				3),
 			_1: {ctor: '[]'}
 		}
 	},
 	rolls: {ctor: '[]'},
-	singleRoll: 0
+	singleRoll: 0,
+	rolledTalent: _elm_lang$core$Maybe$Nothing
 };
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Main$analyseRolls = function (traitRolls) {
+	return A3(
+		_elm_lang$core$List$foldl,
+		F2(
+			function (_p2, total) {
+				var _p3 = _p2;
+				return total + A2(
+					_user$project$Main$compareRollForTrait,
+					A2(_user$project$Main$getTraitValue, _p3._0, _user$project$Main$model),
+					_p3._1);
+			}),
+		0,
+		traitRolls);
+};
 var _user$project$Main$ResetRolls = {ctor: 'ResetRolls'};
-var _user$project$Main$renderResultAndReset = function (rollsSum) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('column is-2 is-offset-3 result-and-reset'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Attributswurf Summe:'),
-			_1: {
+var _user$project$Main$renderResultAndReset = F2(
+	function (rollsSum, talentValue) {
+		var talentPointsLeft = talentValue - rollsSum;
+		return A2(
+			_elm_lang$html$Html$div,
+			{
 				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
-						_1: {ctor: '[]'}
-					},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('control'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$input,
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$classList(
-											{
-												ctor: '::',
-												_0: {
-													ctor: '_Tuple2',
-													_0: 'is-danger',
-													_1: _elm_lang$core$Native_Utils.cmp(rollsSum, 0) > 0
-												},
-												_1: {
-													ctor: '::',
-													_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
-													_1: {ctor: '[]'}
-												}
-											}),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(
-												_elm_lang$core$Basics$toString(rollsSum)),
-											_1: {
-												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$readonly(true),
-												_1: {ctor: '[]'}
-											}
-										}
-									},
-									{ctor: '[]'}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
+				_0: _elm_lang$html$Html_Attributes$class('column is-2 is-offset-3 result-and-reset'),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Wurf Attribut, Talent:'),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('field has-addons'),
+							_1: {ctor: '[]'}
+						},
+						{
 							ctor: '::',
 							_0: A2(
 								_elm_lang$html$Html$div,
@@ -9566,44 +9537,131 @@ var _user$project$Main$renderResultAndReset = function (rollsSum) {
 								{
 									ctor: '::',
 									_0: A2(
-										_elm_lang$html$Html$button,
+										_elm_lang$html$Html$input,
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$class('button is-danger is-large'),
+											_0: _elm_lang$html$Html_Attributes$classList(
+												{
+													ctor: '::',
+													_0: {
+														ctor: '_Tuple2',
+														_0: 'is-danger',
+														_1: _elm_lang$core$Native_Utils.cmp(rollsSum, 0) > 0
+													},
+													_1: {
+														ctor: '::',
+														_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
+														_1: {ctor: '[]'}
+													}
+												}),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ResetRolls),
-												_1: {ctor: '[]'}
+												_0: _elm_lang$html$Html_Attributes$value(
+													_elm_lang$core$Basics$toString(rollsSum)),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$readonly(true),
+													_1: {ctor: '[]'}
+												}
 											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$div,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('control'),
+										_1: {ctor: '[]'}
+									},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$input,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$classList(
+													{
+														ctor: '::',
+														_0: {
+															ctor: '_Tuple2',
+															_0: 'is-danger',
+															_1: _elm_lang$core$Native_Utils.cmp(talentPointsLeft, 0) < 0
+														},
+														_1: {
+															ctor: '::',
+															_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
+															_1: {ctor: '[]'}
+														}
+													}),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$value(
+														_elm_lang$core$Basics$toString(talentPointsLeft)),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$readonly(true),
+														_1: {ctor: '[]'}
+													}
+												}
+											},
+											{ctor: '[]'}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$div,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('control'),
+											_1: {ctor: '[]'}
 										},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Reset'),
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('button is-danger is-large'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ResetRolls),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Reset'),
+													_1: {ctor: '[]'}
+												}),
 											_1: {ctor: '[]'}
 										}),
 									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}),
-				_1: {ctor: '[]'}
-			}
-		});
-};
+								}
+							}
+						}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 var _user$project$Main$Change = F2(
 	function (a, b) {
 		return {ctor: 'Change', _0: a, _1: b};
 	});
-var _user$project$Main$RolledThree = F2(
+var _user$project$Main$RolledTalent = F2(
 	function (a, b) {
-		return {ctor: 'RolledThree', _0: a, _1: b};
+		return {ctor: 'RolledTalent', _0: a, _1: b};
 	});
 var _user$project$Main$Rolled = F2(
 	function (a, b) {
 		return {ctor: 'Rolled', _0: a, _1: b};
 	});
-var _user$project$Main$RollThree = function (a) {
-	return {ctor: 'RollThree', _0: a};
+var _user$project$Main$RollTalent = function (a) {
+	return {ctor: 'RollTalent', _0: a};
 };
 var _user$project$Main$renderTalentButton = function (talent) {
 	var buttonLabel = A2(
@@ -9615,7 +9673,11 @@ var _user$project$Main$renderTalentButton = function (talent) {
 			_1: {
 				ctor: '::',
 				_0: _user$project$Main$traitsForTalents(talent.traits),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$core$Basics$toString(talent.value),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 	return A2(
@@ -9635,7 +9697,7 @@ var _user$project$Main$renderTalentButton = function (talent) {
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(
-							_user$project$Main$RollThree(talent.traits)),
+							_user$project$Main$RollTalent(talent)),
 						_1: {ctor: '[]'}
 					}
 				},
@@ -9850,28 +9912,29 @@ var _user$project$Main$update = F2(
 					_0: A3(_user$project$Main$addTraitRoll, _p4._1, _p4._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'RollThree':
+			case 'RollTalent':
 				var threeDice = A2(_elm_lang$core$Random$list, 3, _user$project$Main$twentySidedDieGen);
 				return {
 					ctor: '_Tuple2',
 					_0: model,
 					_1: A2(
 						_elm_lang$core$Random$generate,
-						_user$project$Main$RolledThree(_p4._0),
+						_user$project$Main$RolledTalent(_p4._0),
 						threeDice)
 				};
-			case 'RolledThree':
+			case 'RolledTalent':
+				var _p5 = _p4._0;
 				var zipped = A3(
 					_elm_lang$core$List$map2,
 					F2(
 						function (v0, v1) {
 							return {ctor: '_Tuple2', _0: v0, _1: v1};
 						}),
-					_p4._0,
+					_p5.traits,
 					_p4._1);
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_user$project$Main$addTraitRolls, zipped, model),
+					_0: A3(_user$project$Main$addTalentRoll, zipped, _p5, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Change':
@@ -9890,7 +9953,8 @@ var _user$project$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							rolls: {ctor: '[]'}
+							rolls: {ctor: '[]'},
+							rolledTalent: _elm_lang$core$Maybe$Nothing
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -10018,7 +10082,7 @@ var _user$project$Main$renderSingleRolls = function (model) {
 		});
 };
 var _user$project$Main$view = function (model) {
-	var rollsSum = _user$project$Main$analyseRolls(model);
+	var rollsSum = _user$project$Main$analyseRolls(model.rolls);
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -10085,7 +10149,18 @@ var _user$project$Main$view = function (model) {
 								},
 								{
 									ctor: '::',
-									_0: _user$project$Main$renderResultAndReset(rollsSum),
+									_0: A2(
+										_user$project$Main$renderResultAndReset,
+										rollsSum,
+										A2(
+											_elm_lang$core$Maybe$withDefault,
+											0,
+											A2(
+												_elm_lang$core$Maybe$map,
+												function (_) {
+													return _.value;
+												},
+												model.rolledTalent))),
 									_1: {
 										ctor: '::',
 										_0: _user$project$Main$renderSingleRolls(model),
