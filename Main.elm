@@ -301,7 +301,7 @@ renderResultAndReset rollsSum talentValue =
                     [ input [ classList [ ( "is-danger", rollsSum > 0 ), ( "input is-large", True ) ], value (rollsSum |> toString), readonly True ] []
                     ]
                 , div [ class "control" ]
-                    [ input [ classList [ ( "is-danger", talentPointsLeft < 0 ), ( "input is-large", True ) ], value (talentPointsLeft |> toString), readonly True ] []
+                    [ input [ classList [ ( "is-danger", talentPointsLeft < 0 ), ( "is-success", talentPointsLeft > 0 ), ( "input is-large", True ) ], value (talentPointsLeft |> toString), readonly True ] []
                     ]
                 , div [ class "control" ]
                     [ button [ class "button is-danger is-large", onClick ResetRolls ] [ text "Reset" ]

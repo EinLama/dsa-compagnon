@@ -9593,8 +9593,16 @@ var _user$project$Main$renderResultAndReset = F2(
 														},
 														_1: {
 															ctor: '::',
-															_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
-															_1: {ctor: '[]'}
+															_0: {
+																ctor: '_Tuple2',
+																_0: 'is-success',
+																_1: _elm_lang$core$Native_Utils.cmp(talentPointsLeft, 0) > 0
+															},
+															_1: {
+																ctor: '::',
+																_0: {ctor: '_Tuple2', _0: 'input is-large', _1: true},
+																_1: {ctor: '[]'}
+															}
 														}
 													}),
 												_1: {
