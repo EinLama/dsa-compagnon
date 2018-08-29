@@ -135,7 +135,7 @@ getTrait trait model =
 
 getTraitValue : Trait -> Model -> Int
 getTraitValue trait model =
-    model |> (getTrait trait) |> Maybe.map .value |> Maybe.withDefault -1
+    model |> getTrait trait |> Maybe.map .value |> Maybe.withDefault -1
 
 
 addTraitRoll : Int -> Trait -> Model -> Model
@@ -145,7 +145,7 @@ addTraitRoll value trait model =
 
 addTraitRolls : List TraitRoll -> Model -> Model
 addTraitRolls results model =
-    { model | rolls = (results :: [ model.rolls ]) |> List.concat }
+    { model | rolls = (results |> List.reverse) ++ model.rolls }
 
 
 addTalentRoll : List TraitRoll -> Talent -> Model -> Model
@@ -172,7 +172,7 @@ compareRollForTrait traitValue rollValue =
 
 extractTraitRolls : Model -> List String
 extractTraitRolls model =
-    model.rolls |> List.map (\( trait, value ) -> (traitLabel trait) ++ ": " ++ (toString value))
+    model.rolls |> List.map (\( trait, value ) -> traitLabel trait ++ ": " ++ toString value)
 
 
 parseIntWithDefault : String -> Int
@@ -314,16 +314,16 @@ renderAttributes : Model -> Html Msg
 renderAttributes model =
     div [ class "columns traits" ]
         ([ div [ class "column is-2" ]
-            [ renderFieldForTrait model Mu (model |> getTraitValue Mu) Change
-            , renderFieldForTrait model Kl (model |> getTraitValue Kl) Change
-            , renderFieldForTrait model In (model |> getTraitValue In) Change
-            , renderFieldForTrait model Ch (model |> getTraitValue Ch) Change
+            [ renderFieldForTrait Mu (model |> getTraitValue Mu) Change
+            , renderFieldForTrait Kl (model |> getTraitValue Kl) Change
+            , renderFieldForTrait In (model |> getTraitValue In) Change
+            , renderFieldForTrait Ch (model |> getTraitValue Ch) Change
             ]
          , div [ class "column is-2" ]
-            [ renderFieldForTrait model Ff (model |> getTraitValue Ff) Change
-            , renderFieldForTrait model Ge (model |> getTraitValue Ge) Change
-            , renderFieldForTrait model Ko (model |> getTraitValue Ko) Change
-            , renderFieldForTrait model Kk (model |> getTraitValue Kk) Change
+            [ renderFieldForTrait Ff (model |> getTraitValue Ff) Change
+            , renderFieldForTrait Ge (model |> getTraitValue Ge) Change
+            , renderFieldForTrait Ko (model |> getTraitValue Ko) Change
+            , renderFieldForTrait Kk (model |> getTraitValue Kk) Change
             ]
          ]
             -- append roll buttons to the side
@@ -386,8 +386,8 @@ renderRollButtons model =
     ]
 
 
-renderFieldForTrait : Model -> Trait -> Int -> (Trait -> String -> msg) -> Html msg
-renderFieldForTrait model trait traitValue changeEvent =
+renderFieldForTrait : Trait -> Int -> (Trait -> String -> msg) -> Html msg
+renderFieldForTrait trait traitValue changeEvent =
     let
         labelForTrait =
             traitLabel trait

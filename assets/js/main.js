@@ -9067,16 +9067,10 @@ var _user$project$Main$addTraitRolls = F2(
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
-				rolls: _elm_lang$core$List$concat(
-					{
-						ctor: '::',
-						_0: results,
-						_1: {
-							ctor: '::',
-							_0: model.rolls,
-							_1: {ctor: '[]'}
-						}
-					})
+				rolls: A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$List$reverse(results),
+					model.rolls)
 			});
 	});
 var _user$project$Main$addTalentRoll = F3(
@@ -9261,8 +9255,8 @@ var _user$project$Main$renderRollButton = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$Main$renderFieldForTrait = F4(
-	function (model, trait, traitValue, changeEvent) {
+var _user$project$Main$renderFieldForTrait = F3(
+	function (trait, traitValue, changeEvent) {
 		var labelForTrait = _user$project$Main$traitLabel(trait);
 		return A2(
 			_elm_lang$html$Html$div,
@@ -9786,33 +9780,29 @@ var _user$project$Main$renderAttributes = function (model) {
 					},
 					{
 						ctor: '::',
-						_0: A4(
+						_0: A3(
 							_user$project$Main$renderFieldForTrait,
-							model,
 							_user$project$Main$Mu,
 							A2(_user$project$Main$getTraitValue, _user$project$Main$Mu, model),
 							_user$project$Main$Change),
 						_1: {
 							ctor: '::',
-							_0: A4(
+							_0: A3(
 								_user$project$Main$renderFieldForTrait,
-								model,
 								_user$project$Main$Kl,
 								A2(_user$project$Main$getTraitValue, _user$project$Main$Kl, model),
 								_user$project$Main$Change),
 							_1: {
 								ctor: '::',
-								_0: A4(
+								_0: A3(
 									_user$project$Main$renderFieldForTrait,
-									model,
 									_user$project$Main$In,
 									A2(_user$project$Main$getTraitValue, _user$project$Main$In, model),
 									_user$project$Main$Change),
 								_1: {
 									ctor: '::',
-									_0: A4(
+									_0: A3(
 										_user$project$Main$renderFieldForTrait,
-										model,
 										_user$project$Main$Ch,
 										A2(_user$project$Main$getTraitValue, _user$project$Main$Ch, model),
 										_user$project$Main$Change),
@@ -9832,33 +9822,29 @@ var _user$project$Main$renderAttributes = function (model) {
 						},
 						{
 							ctor: '::',
-							_0: A4(
+							_0: A3(
 								_user$project$Main$renderFieldForTrait,
-								model,
 								_user$project$Main$Ff,
 								A2(_user$project$Main$getTraitValue, _user$project$Main$Ff, model),
 								_user$project$Main$Change),
 							_1: {
 								ctor: '::',
-								_0: A4(
+								_0: A3(
 									_user$project$Main$renderFieldForTrait,
-									model,
 									_user$project$Main$Ge,
 									A2(_user$project$Main$getTraitValue, _user$project$Main$Ge, model),
 									_user$project$Main$Change),
 								_1: {
 									ctor: '::',
-									_0: A4(
+									_0: A3(
 										_user$project$Main$renderFieldForTrait,
-										model,
 										_user$project$Main$Ko,
 										A2(_user$project$Main$getTraitValue, _user$project$Main$Ko, model),
 										_user$project$Main$Change),
 									_1: {
 										ctor: '::',
-										_0: A4(
+										_0: A3(
 											_user$project$Main$renderFieldForTrait,
-											model,
 											_user$project$Main$Kk,
 											A2(_user$project$Main$getTraitValue, _user$project$Main$Kk, model),
 											_user$project$Main$Change),
