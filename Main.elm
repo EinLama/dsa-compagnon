@@ -156,9 +156,9 @@ addTalentRoll rollResults talent model =
     }
 
 
-analyseRolls : List TraitRoll -> Int
-analyseRolls traitRolls =
-    traitRolls
+analyseRolls : Model -> Int
+analyseRolls model =
+    model.rolls
         |> List.foldl (\( rollTrait, rollValue ) total -> total + compareRollForTrait (model |> getTraitValue rollTrait) rollValue) 0
 
 
@@ -237,7 +237,7 @@ view : Model -> Html Msg
 view model =
     let
         rollsSum =
-            model.rolls |> analyseRolls
+            model |> analyseRolls
     in
         div [ class "section" ]
             [ div [ class "section" ] [ h1 [ class "title" ] [ text "DSA Compagnon" ] ]
