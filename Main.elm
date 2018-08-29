@@ -306,15 +306,28 @@ renderAttributes model =
 renderTalents : Model -> Html Msg
 renderTalents model =
     div [ class "columns talents" ]
-        [ renderTalentButton model [ Mu, Mu, Kl ] "MuMuKl" ]
+        [ renderTalentButton model [ Mu, Mu, Kl ] "Klettern" ]
 
 
 renderTalentButton : Model -> List Trait -> String -> Html Msg
-renderTalentButton model traits label =
-    div
-        [ class "control roll-button" ]
-        [ button [ class "button is-medium is-info", onClick <| RollThree traits ] [ text label ]
-        ]
+renderTalentButton model traits talentName =
+    let
+        buttonLabel =
+            String.join " " [ talentName, (traitsForTalents traits) ]
+    in
+        div
+            [ class "control roll-button" ]
+            [ button [ class "button is-medium is-info", onClick <| RollThree traits ] [ text buttonLabel ]
+            ]
+
+
+traitsForTalents : List Trait -> String
+traitsForTalents traits =
+    let
+        traitsStr =
+            String.join "/" (List.map toString traits)
+    in
+        String.join "" [ "(", traitsStr, ")" ]
 
 
 renderRollButton : Trait -> (Trait -> Msg) -> Html Msg

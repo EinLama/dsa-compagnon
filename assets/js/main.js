@@ -9051,6 +9051,28 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _user$project$Main$traitsForTalents = function (traits) {
+	var traitsStr = A2(
+		_elm_lang$core$String$join,
+		'/',
+		A2(_elm_lang$core$List$map, _elm_lang$core$Basics$toString, traits));
+	return A2(
+		_elm_lang$core$String$join,
+		'',
+		{
+			ctor: '::',
+			_0: '(',
+			_1: {
+				ctor: '::',
+				_0: traitsStr,
+				_1: {
+					ctor: '::',
+					_0: ')',
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
 var _user$project$Main$twentySidedDieGen = A2(_elm_lang$core$Random$int, 1, 20);
 var _user$project$Main$parseIntWithDefault = function (str) {
 	return A2(
@@ -9541,7 +9563,19 @@ var _user$project$Main$RollThree = function (a) {
 	return {ctor: 'RollThree', _0: a};
 };
 var _user$project$Main$renderTalentButton = F3(
-	function (model, traits, label) {
+	function (model, traits, talentName) {
+		var buttonLabel = A2(
+			_elm_lang$core$String$join,
+			' ',
+			{
+				ctor: '::',
+				_0: talentName,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Main$traitsForTalents(traits),
+					_1: {ctor: '[]'}
+				}
+			});
 		return A2(
 			_elm_lang$html$Html$div,
 			{
@@ -9565,7 +9599,7 @@ var _user$project$Main$renderTalentButton = F3(
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(label),
+						_0: _elm_lang$html$Html$text(buttonLabel),
 						_1: {ctor: '[]'}
 					}),
 				_1: {ctor: '[]'}
@@ -9597,7 +9631,7 @@ var _user$project$Main$renderTalents = function (model) {
 						}
 					}
 				},
-				'MuMuKl'),
+				'Klettern'),
 			_1: {ctor: '[]'}
 		});
 };
