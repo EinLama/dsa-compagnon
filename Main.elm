@@ -18,7 +18,7 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( model, Cmd.none )
+    ( initialModel, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -71,8 +71,8 @@ type alias Model =
     }
 
 
-model : Model
-model =
+initialModel : Model
+initialModel =
     { traits =
         [ CharacterTrait Mu 13
         , CharacterTrait Kl 14
