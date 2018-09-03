@@ -9548,41 +9548,181 @@ var _user$project$Main$initialModel = {
 		ctor: '::',
 		_0: A3(
 			_user$project$Main$Talent,
-			'Klettern',
+			'Fliegen',
 			{
 				ctor: '::',
 				_0: _user$project$Main$Mu,
 				_1: {
 					ctor: '::',
-					_0: _user$project$Main$Mu,
+					_0: _user$project$Main$In,
 					_1: {
 						ctor: '::',
-						_0: _user$project$Main$Ff,
+						_0: _user$project$Main$Ge,
 						_1: {ctor: '[]'}
 					}
 				}
 			},
-			5),
+			8),
 		_1: {
 			ctor: '::',
 			_0: A3(
 				_user$project$Main$Talent,
-				'Götter und Kulte',
+				'Klettern',
 				{
 					ctor: '::',
-					_0: _user$project$Main$Kl,
+					_0: _user$project$Main$Mu,
 					_1: {
+						ctor: '::',
+						_0: _user$project$Main$Ge,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Main$Kk,
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				9),
+			_1: {
+				ctor: '::',
+				_0: A3(
+					_user$project$Main$Talent,
+					'Sinnesschärfe',
+					{
 						ctor: '::',
 						_0: _user$project$Main$Kl,
 						_1: {
 							ctor: '::',
 							_0: _user$project$Main$In,
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: _user$project$Main$In,
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					8),
+				_1: {
+					ctor: '::',
+					_0: A3(
+						_user$project$Main$Talent,
+						'Verbergen',
+						{
+							ctor: '::',
+							_0: _user$project$Main$Mu,
+							_1: {
+								ctor: '::',
+								_0: _user$project$Main$In,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Main$Ge,
+									_1: {ctor: '[]'}
+								}
+							}
+						},
+						5),
+					_1: {
+						ctor: '::',
+						_0: A3(
+							_user$project$Main$Talent,
+							'Betören',
+							{
+								ctor: '::',
+								_0: _user$project$Main$Mu,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Main$Ch,
+									_1: {
+										ctor: '::',
+										_0: _user$project$Main$Ch,
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							13),
+						_1: {
+							ctor: '::',
+							_0: A3(
+								_user$project$Main$Talent,
+								'Etikette',
+								{
+									ctor: '::',
+									_0: _user$project$Main$Kl,
+									_1: {
+										ctor: '::',
+										_0: _user$project$Main$In,
+										_1: {
+											ctor: '::',
+											_0: _user$project$Main$Ch,
+											_1: {ctor: '[]'}
+										}
+									}
+								},
+								9),
+							_1: {
+								ctor: '::',
+								_0: A3(
+									_user$project$Main$Talent,
+									'Menschenkenntnis',
+									{
+										ctor: '::',
+										_0: _user$project$Main$Kl,
+										_1: {
+											ctor: '::',
+											_0: _user$project$Main$In,
+											_1: {
+												ctor: '::',
+												_0: _user$project$Main$Ch,
+												_1: {ctor: '[]'}
+											}
+										}
+									},
+									10),
+								_1: {
+									ctor: '::',
+									_0: A3(
+										_user$project$Main$Talent,
+										'Überreden',
+										{
+											ctor: '::',
+											_0: _user$project$Main$Kl,
+											_1: {
+												ctor: '::',
+												_0: _user$project$Main$In,
+												_1: {
+													ctor: '::',
+													_0: _user$project$Main$Ch,
+													_1: {ctor: '[]'}
+												}
+											}
+										},
+										8),
+									_1: {
+										ctor: '::',
+										_0: A3(
+											_user$project$Main$Talent,
+											'Götter und Kulte',
+											{
+												ctor: '::',
+												_0: _user$project$Main$Kl,
+												_1: {
+													ctor: '::',
+													_0: _user$project$Main$Kl,
+													_1: {
+														ctor: '::',
+														_0: _user$project$Main$In,
+														_1: {ctor: '[]'}
+													}
+												}
+											},
+											8),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
 						}
 					}
-				},
-				3),
-			_1: {ctor: '[]'}
+				}
+			}
 		}
 	},
 	rolls: {ctor: '[]'},

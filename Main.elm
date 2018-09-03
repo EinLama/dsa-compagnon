@@ -84,8 +84,15 @@ initialModel =
         , CharacterTrait Kk 9
         ]
     , talents =
-        [ Talent "Klettern" [ Mu, Mu, Ff ] 5
-        , Talent "Götter und Kulte" [ Kl, Kl, In ] 3
+        [ Talent "Fliegen" [ Mu, In, Ge ] 8
+        , Talent "Klettern" [ Mu, Ge, Kk ] 9
+        , Talent "Sinnesschärfe" [ Kl, In, In ] 8
+        , Talent "Verbergen" [ Mu, In, Ge ] 5
+        , Talent "Betören" [ Mu, Ch, Ch ] 13
+        , Talent "Etikette" [ Kl, In, Ch ] 9
+        , Talent "Menschenkenntnis" [ Kl, In, Ch ] 10
+        , Talent "Überreden" [ Kl, In, Ch ] 8
+        , Talent "Götter und Kulte" [ Kl, Kl, In ] 8
         ]
     , rolls = []
     , singleRoll = 0
